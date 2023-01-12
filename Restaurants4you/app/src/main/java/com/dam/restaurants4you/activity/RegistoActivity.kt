@@ -7,11 +7,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.model.User
-import com.dam.restaurants4you.model.UserDTO
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class RegistoActivity : AppCompatActivity() {
 
@@ -26,12 +29,26 @@ class RegistoActivity : AppCompatActivity() {
     }
 
     private fun register() {
-        val txtUser: String = findViewById<EditText>(R.id.userRegisto).text.toString()
-        val txtPass = findViewById<EditText>(R.id.passwordRegisto).text.toString()
-        val txtConfPass = findViewById<EditText>(R.id.confPassword).text.toString()
-        
+
+        val txtUser: RequestBody =
+            RequestBody.create(MediaType.parse("multipart/form-data"), findViewById<EditText>(R.id.userRegisto).text.toString())
+
+
+        val txtPass: RequestBody =
+            RequestBody.create(MediaType.parse("multipart/form-data"), findViewById<EditText>(R.id.passwordRegisto).text.toString())
+
+
+        val txtConfPass: RequestBody =
+            RequestBody.create(MediaType.parse("multipart/form-data"), findViewById<EditText>(R.id.confPassword).text.toString())
+
+
+        //val txtUser: String = findViewById<EditText>(R.id.userRegisto).text.toString()
+        //val txtPass = findViewById<EditText>(R.id.passwordRegisto).text.toString()
+        //val txtConfPass = findViewById<EditText>(R.id.confPassword).text.toString()
+
+
         if (txtPass == txtConfPass) {
-            val user = UserDTO(txtUser, txtPass)
+
 
             val call = RetrofitInitializer()
                 .userService()
