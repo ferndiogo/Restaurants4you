@@ -15,12 +15,7 @@ interface UserService {
         @Field("username") user: String,
         @Field("password") pass: String
     ): Call<User>
-
-
-
-    @FormUrlEncoded
-    @POST("api/Auth/login")
-    fun login(@Part("user") Userdto: ): Call<String>
+    
 
     @Multipart
     @POST("api/Auth/login")
