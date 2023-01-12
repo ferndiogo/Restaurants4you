@@ -1,7 +1,6 @@
 package com.dam.restaurants4you.retrofit.servives
 
 import com.dam.restaurants4you.model.User
-import com.dam.restaurants4you.model.UserDTO
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -18,8 +17,15 @@ interface UserService {
     ): Call<User>
 
 
+
     @FormUrlEncoded
     @POST("api/Auth/login")
-    fun login(@Part("user") Userdto: UserDTO): Call<String>
+    fun login(@Part("user") Userdto: ): Call<String>
+
+    @Multipart
+    @POST("api/Auth/login")
+    fun login(@Part("username") user: RequestBody?,
+              @Part("password") pass: RequestBody?): Call<String>
+
 
 }
