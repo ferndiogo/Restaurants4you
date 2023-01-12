@@ -28,6 +28,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="center">
 
+            <Button
+                android:id="@+id/btnRegistar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="@string/registo"
+                android:textAlignment="center"></Button>
 
             <Button
                 android:id="@+id/btnLogin"
@@ -36,15 +44,6 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:text="@string/login"
-                android:textAlignment="center"></Button>
-
-            <Button
-                android:id="@+id/btnRegistar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:text="@string/registo"
                 android:textAlignment="center"></Button>
 
 

@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         val btnLogin = findViewById<View>(R.id.btnLogin) as Button
         val btnRegisto = findViewById<View>(R.id.btnRegisto) as Button
+        val btnmapa = findViewById<View>(R.id.mapaa) as Button
 
         btnLogin.setOnClickListener(View.OnClickListener {
             val it = Intent(this@MainActivity, LoginActivity::class.java)
@@ -24,6 +25,11 @@ class MainActivity : AppCompatActivity() {
 
         btnRegisto.setOnClickListener(View.OnClickListener {
             val it = Intent(this@MainActivity, RegistoActivity::class.java)
+            startActivity(it)
+        })
+
+        btnmapa.setOnClickListener(View.OnClickListener {
+            val it = Intent(this@MainActivity, MapaActivity::class.java)
             startActivity(it)
         })
 
