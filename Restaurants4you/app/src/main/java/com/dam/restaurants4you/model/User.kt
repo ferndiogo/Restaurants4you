@@ -5,23 +5,21 @@ import retrofit2.Callback
 import java.util.*
 
 class User(
-    @SerializedName("id")
-    val id: Int,
 
     @SerializedName("username")
-    val username: String,
+    val username: String?,
 
     @SerializedName("PasswordSalt")
-    val passSalt: Array<Byte>,
+    val passSalt: Array<Byte?>,
 
     @SerializedName("PasswrodHash")
-    val passHash:Array<Byte>,
+    val passHash:Array<Byte?>,
 
     @SerializedName("TokenCreated")
-    val tokenCreated: Date,
+    val tokenCreated: Date?,
 
     @SerializedName("TokenExpires")
-    val tokenExpire: Date,
+    val tokenExpire: Date?,
 
     )
 

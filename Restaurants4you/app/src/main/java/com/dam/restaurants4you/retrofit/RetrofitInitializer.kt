@@ -7,7 +7,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitInitializer {
-    private val host = "http://10.0.2.2:5194/"
+
+    private val host = "https://restaurants4you-api.azurewebsites.net/"
 
     private val gson: Gson = GsonBuilder().setLenient().create()
 

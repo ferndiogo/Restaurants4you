@@ -9,7 +9,6 @@ import com.dam.restaurants4you.R
 import com.dam.restaurants4you.model.User
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
 import okhttp3.MediaType
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,36 +29,26 @@ class RegistoActivity : AppCompatActivity() {
 
     private fun register() {
 
-        val txtUser: RequestBody =
-            RequestBody.create(MediaType.parse("multipart/form-data"), findViewById<EditText>(R.id.userRegisto).text.toString())
+        val txtUser: String = findViewById<EditText>(R.id.userRegisto).text.toString()
+        val txtPass = findViewById<EditText>(R.id.passwordRegisto).text.toString()
+        val txtConfPass = findViewById<EditText>(R.id.confPassword).text.toString()
 
-
-        val txtPass: RequestBody =
-            RequestBody.create(MediaType.parse("multipart/form-data"), findViewById<EditText>(R.id.passwordRegisto).text.toString())
-
-
-        val txtConfPass: RequestBody =
-            RequestBody.create(MediaType.parse("multipart/form-data"), findViewById<EditText>(R.id.confPassword).text.toString())
-
-
-        //val txtUser: String = findViewById<EditText>(R.id.userRegisto).text.toString()
-        //val txtPass = findViewById<EditText>(R.id.passwordRegisto).text.toString()
-        //val txtConfPass = findViewById<EditText>(R.id.confPassword).text.toString()
 
 
         if (txtPass == txtConfPass) {
 
-
             val call = RetrofitInitializer()
                 .userService()
-                .register(txtUser,txtPass)
+                .register(txtUser, txtPass)
 
             call.enqueue(object : Callback<User> {
                 override fun onFailure(call: Call<User>, t: Throwable) {
                     // writes on console the error
                     t.printStackTrace()
                     Toast.makeText(
-                        this@RegistoActivity, "ocorreu um erro ao conectar ao servidor", Toast.LENGTH_LONG
+                        this@RegistoActivity,
+                        "ocorreu um erro ao conectar ao servidor",
+                        Toast.LENGTH_LONG
                     ).show()
                 }
 
@@ -68,9 +57,9 @@ class RegistoActivity : AppCompatActivity() {
                     println("Deu Certo")
                 }
             })
+
         }
     }
-
 
 }
 
