@@ -1,10 +1,12 @@
 package com.dam.restaurants4you.fragmentos
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.dam.restaurants4you.R
 import com.google.android.material.tabs.TabLayout
+
 
 class Fragmentos : AppCompatActivity(){
     lateinit var tabLayout: TabLayout
@@ -19,10 +21,13 @@ class Fragmentos : AppCompatActivity(){
         viewPager2 = findViewById(R.id.view_pager2)
         myViewPagerAdapter = AdaptadorPagina(this)
         viewPager2.adapter = myViewPagerAdapter
+        viewPager2.setUserInputEnabled(false);
+
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 viewPager2.currentItem = tab!!.position
+                //viewPager2.currentItem
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -39,4 +44,7 @@ class Fragmentos : AppCompatActivity(){
             }
         })
     }
+
+
+
 }
