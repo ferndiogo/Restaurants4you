@@ -26,7 +26,9 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Overlay
 import org.osmdroid.views.overlay.compass.CompassOverlay
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MapaActivity : AppCompatActivity(), LocationListener {
@@ -77,8 +79,9 @@ class MapaActivity : AppCompatActivity(), LocationListener {
                         list = it as List<Restaurant>
                     }
                     showMap()
-                    //addAllMarkers()
+                    addAllMarkers()
                     getLocation()
+                    //list?.get(0)?.let { println(it.id)
 
                 }
 
@@ -95,7 +98,7 @@ class MapaActivity : AppCompatActivity(), LocationListener {
 
     private fun addAllMarkers(){
         for (rt: Restaurant in list!!){
-            criarMarcador(rt.latitude, rt.longitude, rt.name)
+            criarMarcador(rt.latitude, rt.longitude, rt.name, rt, token)
         }
     }
 
@@ -114,7 +117,7 @@ class MapaActivity : AppCompatActivity(), LocationListener {
 
 
         //chama a função que cria o marcador
-        criarMarcador(39.60068, -8.38967, "IPT")
+        //criarMarcador(39.60068, -8.38967, "IPT", )
 
 
     }
@@ -155,7 +158,7 @@ class MapaActivity : AppCompatActivity(), LocationListener {
     /**
      * função que cria um marcador com as coordenadas passadas por parametro
      */
-    private fun criarMarcador(latitude: Double, logintude: Double, local: String) {
+    private fun criarMarcador(latitude: Double, logintude: Double, local: String, rt: Restaurant, token : String?) {
 
         // define um ponto no mapa
         // Instituto Politécnico de Tomar
@@ -168,7 +171,7 @@ class MapaActivity : AppCompatActivity(), LocationListener {
         // diz ao mapa que o marcador deve ser desenhado no centro da tela
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         // define o conteúdo da infoWindow
-        startMarker.infoWindow = Marcador(map, this, local)
+        startMarker.infoWindow = Marcador(map, this, local, rt, token)
         // adiciona o marcador ao Mapa
         map.overlays.add(startMarker)
 
@@ -189,7 +192,7 @@ class MapaActivity : AppCompatActivity(), LocationListener {
         //tvGpsLocation = findViewById(R.id.textView)
         //tvGpsLocation.text = "Latitude: " + location.latitude + " , Longitude: " + location.longitude
 
-        criarMarcador(location.latitude,location.longitude,"EU")
+        //criarMarcador(location.latitude,location.longitude,"EU", null)
     }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

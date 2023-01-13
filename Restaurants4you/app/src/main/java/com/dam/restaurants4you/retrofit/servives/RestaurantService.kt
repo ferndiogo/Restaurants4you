@@ -1,6 +1,7 @@
 package com.dam.restaurants4you.retrofit.servives
 
 import com.dam.restaurants4you.model.Restaurant
+import com.google.gson.annotations.JsonAdapter
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -11,11 +12,12 @@ interface RestaurantService {
         @Header("Authorization") token:String
     ): Call<List<Restaurant>>
 
-    @Multipart
+
+
     @GET("api/Restaurants/{id}")
     fun listRestaurants(
         @Header("Authorization") token:String,
-        @Part("id") idBody: Int
+        @Path("id") id: Int
     ): Call<Restaurant>
 
     @Multipart

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.widget.Button
 import android.widget.TextView
 import com.dam.restaurants4you.R
+import com.dam.restaurants4you.model.Restaurant
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 
@@ -11,12 +12,16 @@ class Marcador: InfoWindow {
 
     private var parent: MapaActivity
     private var text: String
+    private var rt: Restaurant
+    private var token: String?
 
     constructor(
-        mapView: MapView, parent: MapaActivity, text: String
+        mapView: MapView, parent: MapaActivity, text: String, rt: Restaurant, token: String?
     ) : super(R.layout.janela_info, mapView) {
         this.parent = parent
         this.text = text
+        this.rt = rt
+        this.token = token
     }
 
     override fun onOpen(item: Any?) {
@@ -34,6 +39,8 @@ class Marcador: InfoWindow {
         myHelloButton.setOnClickListener {
             //Toast.makeText(parent, "Hello $text", Toast.LENGTH_SHORT).show()
             val act = Intent(parent, RestaurantesActivity::class.java)
+            act.putExtra("id", rt.id)
+            act.putExtra("token", token)
             parent.startActivity(act)
         }
 
