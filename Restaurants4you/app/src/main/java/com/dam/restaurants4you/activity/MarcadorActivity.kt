@@ -1,5 +1,6 @@
 package com.dam.restaurants4you.activity
 
+import android.content.Intent
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
@@ -16,7 +17,7 @@ class MarcadorActivity: InfoWindow {
 
     constructor(
         mapView: MapView, parent: MapaActivity, text: String
-    ) : super(R.layout.janela_detalhes, mapView) {
+    ) : super(R.layout.janela_info, mapView) {
         this.parent = parent
         this.text = text
     }
@@ -34,7 +35,9 @@ class MarcadorActivity: InfoWindow {
 
         // define o que acontece quando se clica no botão
         myHelloButton.setOnClickListener {
-            Toast.makeText(parent, "Hello $text", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(parent, "Hello $text", Toast.LENGTH_SHORT).show()
+            val act = Intent(parent, Restaurantes::class.java)
+            parent.startActivity(act)
         }
 
         // quando um clique na área da janela, ela fecha
