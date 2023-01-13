@@ -37,6 +37,13 @@
             android:layout_margin="10dp"
             android:text="Mapa" />
 
+        <Button
+            android:id="@+id/frags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Frags" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,7 @@ class MarcadorActivity: InfoWindow {
 
     constructor(
         mapView: MapView, parent: MapaActivity, text: String
-    ) : super(R.layout.marcador, mapView) {
+    ) : super(R.layout.janela_detalhes, mapView) {
         this.parent = parent
         this.text = text
     }

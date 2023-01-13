@@ -41,6 +41,7 @@
         <activity android:name=".activity.LoginActivity"></activity>
         <activity android:name=".activity.RegistoActivity"></activity>
         <activity android:name=".activity.MapaActivity"></activity>
+        <activity android:name=".fragmentos.Fragmentos"></activity>
     </application>
 
 </manifest>
