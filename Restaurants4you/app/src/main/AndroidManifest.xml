@@ -42,6 +42,7 @@
         <activity android:name=".activity.RegistoActivity"></activity>
         <activity android:name=".activity.MapaActivity"></activity>
         <activity android:name=".fragmentos.Fragmentos"></activity>
+        <activity android:name=".activity.Restaurantes"></activity>
     </application>
 
 </manifest>
