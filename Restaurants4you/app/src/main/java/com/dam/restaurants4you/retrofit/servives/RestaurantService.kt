@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface RestaurantService {
-    @Multipart
+
     @GET("api/Restaurants")
     fun listRestaurants(
         @Header("Authorization") token:String

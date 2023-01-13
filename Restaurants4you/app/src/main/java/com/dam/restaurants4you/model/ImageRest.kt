@@ -3,15 +3,15 @@ package com.dam.restaurants4you.model
 import com.google.gson.annotations.SerializedName
 
 data class ImageRest(
-    @SerializedName("Id")
+    @SerializedName("id")
     val id: Int,
 
-    @SerializedName("Path")
+    @SerializedName("path")
     val path: String,
 
-    @SerializedName("RestaurantFK")
+    @SerializedName("restaurantFK")
     val restFK: Int,
 
-    @SerializedName("Restaurant")
+    @SerializedName("restaurant")
     val rest: Restaurant,
 )

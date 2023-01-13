@@ -1,43 +1,56 @@
 package com.dam.restaurants4you.activity
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable.createFromPath
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.dam.restaurants4you.R
+import com.dam.restaurants4you.model.Restaurant
+import com.dam.restaurants4you.retrofit.RetrofitInitializer
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.Overlay
 import org.osmdroid.views.overlay.compass.CompassOverlay
+import retrofit2.*
 
 
-class MapaActivity : AppCompatActivity() {
+class MapaActivity : AppCompatActivity(), LocationListener {
+
+    private lateinit var locationManager: LocationManager
+    private lateinit var tvGpsLocation: TextView
+    private val locationPermissionCode = 2
+
+    //Marcado para a minha localização
+    private val myMarker: Overlay? = null
+
 
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
     private lateinit var map: MapView
     private var token: String? = null
+    private var list: List<Restaurant>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mapa)
 
-        //Verificar Token
-        //Senão for válido faz:
-        token = intent.getStringExtra("token")
-        //E redireciona para o login
+        token = intent.getStringExtra("token").toString()
 
-        //Se o token for válido
-
+        map = findViewById(R.id.mapa)
 
         requestPermissionsIfNecessary(
             arrayOf(
@@ -51,15 +64,45 @@ class MapaActivity : AppCompatActivity() {
             )
         )
 
-        // adiciona o OpenStreetMap à activity
-        showMap()
+        if (token.isNullOrBlank()) {
+            val it = Intent(this@MapaActivity, LoginActivity::class.java)
+            startActivity(it)
+        } else {
+            val call = RetrofitInitializer().restaurantService().listRestaurants(token!!)
+            println("Iam Here")
+            call.enqueue(object : Callback<List<Restaurant>> {
+                override fun onResponse(call: Call<List<Restaurant>>, response: Response<List<Restaurant>>
+                ) {
+                    response.body().let {
+                        list = it as List<Restaurant>
+                    }
+                    showMap()
+                    //addAllMarkers()
+                    getLocation()
+
+                }
+
+                override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
+                    Toast.makeText(this@MapaActivity,"Token inválido ou erro no servidor", Toast.LENGTH_LONG)
+                    val it = Intent(this@MapaActivity, LoginActivity::class.java)
+                    startActivity(it)
+                }
+
+            })
+
+        }
+    }
+
+    private fun addAllMarkers(){
+        for (rt: Restaurant in list!!){
+            criarMarcador(rt.latitude, rt.longitude, rt.name)
+        }
     }
 
     private fun showMap() {
         // define apenas um mapa em ºtodo o programa
         Configuration.getInstance().setUserAgentValue(this.getPackageName())
 
-        map = findViewById(R.id.mapa)
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.controller.zoomTo(17.0)
         map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.ALWAYS)
@@ -112,7 +155,7 @@ class MapaActivity : AppCompatActivity() {
     /**
      * função que cria um marcador com as coordenadas passadas por parametro
      */
-    private fun criarMarcador(latitude : Double, logintude : Double, local : String){
+    private fun criarMarcador(latitude: Double, logintude: Double, local: String) {
 
         // define um ponto no mapa
         // Instituto Politécnico de Tomar
@@ -125,13 +168,32 @@ class MapaActivity : AppCompatActivity() {
         // diz ao mapa que o marcador deve ser desenhado no centro da tela
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         // define o conteúdo da infoWindow
-        startMarker.infoWindow = MarcadorActivity(map, this, local)
+        startMarker.infoWindow = Marcador(map, this, local)
         // adiciona o marcador ao Mapa
         map.overlays.add(startMarker)
 
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
         }, 1000) //espera um segundo para centrar o mapa
+    }
+
+
+    private fun getLocation() {
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+    }
+    override fun onLocationChanged(location: Location) {
+        //tvGpsLocation = findViewById(R.id.textView)
+        //tvGpsLocation.text = "Latitude: " + location.latitude + " , Longitude: " + location.longitude
+
+        criarMarcador(location.latitude,location.longitude,"EU")
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        requestPermissionsIfNecessary(permissions)
     }
 
 }

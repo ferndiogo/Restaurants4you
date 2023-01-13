@@ -3,18 +3,18 @@ package com.dam.restaurants4you.model
 import com.google.gson.annotations.SerializedName
 
 data class Plate(
-    @SerializedName("Id")
+    @SerializedName("id")
     val id: Int,
 
-    @SerializedName("Name")
+    @SerializedName("name")
     val name: String,
 
-    @SerializedName("Description")
+    @SerializedName("description")
     val descripton: String,
 
-    @SerializedName("RestaurantFK")
+    @SerializedName("restaurantFK")
     val restId: Int,
 
-    @SerializedName("Restaurant")
+    @SerializedName("restaurant")
     val rest: Restaurant,
 )

@@ -2,15 +2,12 @@ package com.dam.restaurants4you.activity
 
 import android.content.Intent
 import android.widget.Button
-import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import com.dam.restaurants4you.R
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 
-class MarcadorActivity: InfoWindow {
+class Marcador: InfoWindow {
 
     private var parent: MapaActivity
     private var text: String
@@ -36,7 +33,7 @@ class MarcadorActivity: InfoWindow {
         // define o que acontece quando se clica no botão
         myHelloButton.setOnClickListener {
             //Toast.makeText(parent, "Hello $text", Toast.LENGTH_SHORT).show()
-            val act = Intent(parent, Restaurantes::class.java)
+            val act = Intent(parent, RestaurantesActivity::class.java)
             parent.startActivity(act)
         }
 

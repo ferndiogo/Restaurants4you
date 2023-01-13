@@ -7,33 +7,33 @@ data class Restaurant(
     @SerializedName("id")
     val id: Int,
 
-    @SerializedName("Name")
+    @SerializedName("name")
     val name: String,
 
-    @SerializedName("Description")
+    @SerializedName("description")
     val description:String,
 
-    @SerializedName("Localization")
+    @SerializedName("localization")
     val localization: String,
 
-    @SerializedName("Contact")
+    @SerializedName("contact")
     val contact: String,
 
-    @SerializedName("Email")
+    @SerializedName("email")
     val email: String,
 
-    @SerializedName("Time")
+    @SerializedName("time")
     val Time: String,
 
-    @SerializedName("Latitude")
+    @SerializedName("latitude")
     val latitude: Double,
 
-    @SerializedName("Longitude")
+    @SerializedName("longitude")
     val longitude:Double,
 
-    @SerializedName("Plates")
+    @SerializedName("plates")
     val plates: Array<Plate>,
 
-    @SerializedName("Images")
+    @SerializedName("images")
     val images: Array<ImageRest>
 )
