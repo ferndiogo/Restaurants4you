@@ -58,28 +58,11 @@ class MapaActivity : AppCompatActivity() {
         compassOverlay.enableCompass()
         map.overlays.add(compassOverlay)
 
-        // define um ponto no mapa
-        // Instituto Politécnico de Tomar
-        var point = GeoPoint(39.60068, -8.38967)       // 39.60199, -8.39675
-        // define um marcador num ponto
-        var startMarker = Marker(map)
+
+        //chama a função que cria o marcador
+        criarMarcador(39.60068, -8.38967, "IPT")
 
 
-
-        startMarker.setIcon(getResources().getDrawable(R.drawable.marcador));
-
-        // atribui o ponto ao marcador
-        startMarker.position = point
-        // diz ao mapa que o marcador deve ser desenhado no centro da tela
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-        // define o conteúdo da infoWindow
-        startMarker.infoWindow = MarcadorActivity(map, this, "IPT")
-        // adiciona o marcador ao Mapa
-        map.overlays.add(startMarker)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            map.controller.setCenter(point)
-        }, 1000) //espera um segundo para centrar o mapa
     }
 
     override fun onPause() {
@@ -113,6 +96,31 @@ class MapaActivity : AppCompatActivity() {
                 REQUEST_PERMISSIONS_REQUEST_CODE
             );
         }
+    }
+
+    /**
+     * função que cria um marcador com as coordenadas passadas por parametro
+     */
+    private fun criarMarcador(latitude : Double, logintude : Double, local : String){
+
+        // define um ponto no mapa
+        // Instituto Politécnico de Tomar
+        var point = GeoPoint(latitude, logintude)
+        // define um marcador num ponto
+        var startMarker = Marker(map)
+        startMarker.setIcon(getResources().getDrawable(R.drawable.marcador));
+        // atribui o ponto ao marcador
+        startMarker.position = point
+        // diz ao mapa que o marcador deve ser desenhado no centro da tela
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+        // define o conteúdo da infoWindow
+        startMarker.infoWindow = MarcadorActivity(map, this, local)
+        // adiciona o marcador ao Mapa
+        map.overlays.add(startMarker)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            map.controller.setCenter(point)
+        }, 1000) //espera um segundo para centrar o mapa
     }
 
 }

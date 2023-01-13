@@ -1,8 +1,10 @@
 package com.dam.restaurants4you.activity
 
 import android.widget.Button
+import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import com.dam.restaurants4you.R
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.infowindow.InfoWindow
@@ -14,7 +16,7 @@ class MarcadorActivity: InfoWindow {
 
     constructor(
         mapView: MapView, parent: MapaActivity, text: String
-    ) : super(R.layout.janela_info, mapView) {
+    ) : super(R.layout.marcador, mapView) {
         this.parent = parent
         this.text = text
     }
