@@ -8,21 +8,19 @@ import retrofit2.http.*
 
 interface UserService {
 
-    @FormUrlEncoded
-    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @Multipart
     @POST("api/Auth/register")
     fun register(
-        @Field("username") user: String,
-        @Field("password") pass: String
+        @Part("username") user: String,
+        @Part("password") pass: String
     ): Call<User>
 
 
-    @FormUrlEncoded
-    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @Multipart
     @POST("api/Auth/login")
     fun login(
-        @Field("username") user: String,
-        @Field("password") pass: String
+        @Part("username") user: String,
+        @Part("password") pass: String
     ): Call<String>
 
 
