@@ -15,7 +15,7 @@ interface RestaurantService {
     @GET("api/Restaurants/{id}")
     fun listRestaurants(
         @Header("Authorization") token:String,
-        @Path("id") id: String
+        @Part("id") idBody: Int
     ): Call<Restaurant>
 
     @Multipart
@@ -29,16 +29,15 @@ interface RestaurantService {
     @DELETE("api/Restaurants/{id}")
     fun deleteRestaurant(
         @Header("Authorization") token:String,
-        @Path("id") id: Int,
-        @Part("id") idBody: Int
+        @Part("id") id: Int
     ):Call<Void>
 
     @Multipart
-    @PUT("api/Restaurants")
+    @PUT("api/Restaurants/{id}")
     fun editRestaurant(
         @Header("Authorization") token:String,
         @Part("rt") restaurant: Restaurant,
-        @Path("id") id: Int
+        @Part("id") id: Int
     ):Call<Void>
 
 

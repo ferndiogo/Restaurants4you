@@ -15,7 +15,7 @@ interface PlateService {
     @GET("api/Plates/{id}")
     fun listPlates(
         @Header("Authorization") token:String,
-        @Path("id") id: String
+        @Part("id") id: String
     ): Call<Plate>
 
     @Multipart
@@ -29,7 +29,6 @@ interface PlateService {
     @DELETE("api/Plates/{id}")
     fun deletePlate(
         @Header("Authorization") token:String,
-        @Path("id") id: Int,
         @Part("id") idBody: Int
     ): Call<Void>
 
@@ -38,7 +37,6 @@ interface PlateService {
     fun editPlate(
         @Header("Authorization") token:String,
         @Part("plate") plate: Plate,
-        @Path("id") id: Int,
         @Part("id") idBody: Int
     ): Call<Void>
 }
