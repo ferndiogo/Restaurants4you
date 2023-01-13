@@ -37,7 +37,8 @@ interface RestaurantService {
     @PUT("api/Restaurants")
     fun editRestaurant(
         @Header("Authorization") token:String,
-        @Part("rt") restaurant: Restaurant
+        @Part("rt") restaurant: Restaurant,
+        @Path("id") id: Int
     ):Call<Void>
 
 
