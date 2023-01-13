@@ -1,5 +1,7 @@
 package com.dam.restaurants4you.retrofit
 
+import com.dam.restaurants4you.retrofit.servives.PlateService
+import com.dam.restaurants4you.retrofit.servives.RestaurantService
 import com.dam.restaurants4you.retrofit.servives.UserService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -19,5 +21,6 @@ class RetrofitInitializer {
             .build()
 
     fun userService(): UserService = retrofit.create(UserService::class.java)
+    fun restaurantService():RestaurantService = retrofit.create(RestaurantService::class.java)
 
 }
