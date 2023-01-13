@@ -1,6 +1,8 @@
 package com.dam.restaurants4you.activity
 
 import android.Manifest
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable.createFromPath
 import android.os.Bundle
@@ -23,10 +25,19 @@ class MapaActivity : AppCompatActivity() {
 
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
     private lateinit var map: MapView
+    private var token: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mapa)
+
+        //Verificar Token
+        //Senão for válido faz:
+        token = intent.getStringExtra("token")
+        //E redireciona para o login
+
+        //Se o token for válido
+
 
         requestPermissionsIfNecessary(
             arrayOf(

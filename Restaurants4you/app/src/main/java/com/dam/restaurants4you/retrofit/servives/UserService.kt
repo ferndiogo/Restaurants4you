@@ -15,12 +15,15 @@ interface UserService {
         @Field("username") user: String,
         @Field("password") pass: String
     ): Call<User>
-    
 
-    @Multipart
+
+    @FormUrlEncoded
+    @Headers("Content-Type:application/x-www-form-urlencoded")
     @POST("api/Auth/login")
-    fun login(@Part("username") user: RequestBody?,
-              @Part("password") pass: RequestBody?): Call<String>
+    fun login(
+        @Field("username") user: String,
+        @Field("password") pass: String
+    ): Call<String>
 
 
 }
