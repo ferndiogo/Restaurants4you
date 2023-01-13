@@ -1,6 +1,8 @@
 package com.dam.restaurants4you.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -22,9 +24,15 @@ class RegistoActivity : AppCompatActivity() {
         setContentView(R.layout.registo)
 
         val btnRegistar = findViewById<Button>(R.id.btnRegistar)
-        btnRegistar.setOnClickListener {
+        btnRegistar.setOnClickListener (View.OnClickListener {
             register()
-        }
+        })
+
+        val btnLogin = findViewById<Button>(R.id.btnLogin)
+        btnLogin.setOnClickListener(View.OnClickListener {
+            val it = Intent(this@RegistoActivity, LoginActivity::class.java)
+            startActivity(it)
+        })
     }
 
     private fun register() {
@@ -32,8 +40,6 @@ class RegistoActivity : AppCompatActivity() {
         val txtUser: String = findViewById<EditText>(R.id.userRegisto).text.toString()
         val txtPass = findViewById<EditText>(R.id.passwordRegisto).text.toString()
         val txtConfPass = findViewById<EditText>(R.id.confPassword).text.toString()
-
-
 
         if (txtPass == txtConfPass) {
 
@@ -47,14 +53,25 @@ class RegistoActivity : AppCompatActivity() {
                     t.printStackTrace()
                     Toast.makeText(
                         this@RegistoActivity,
-                        "ocorreu um erro ao conectar ao servidor",
+                        "Ocorreu um erro ao conectar ao servidor",
                         Toast.LENGTH_LONG
                     ).show()
                 }
 
                 override fun onResponse(call: Call<User>, response: Response<User>) {
                     // returns the TOKEN
-                    println("Deu Certo")
+                    response?.body().let {
+                        val username: String? = (it as User).username
+                        Toast.makeText(
+                            this@RegistoActivity,
+                            "Utilizador Adicionado : $username",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        val it = Intent(this@RegistoActivity, LoginActivity::class.java)
+                        startActivity(it)
+
+                    }
+
                 }
             })
 
