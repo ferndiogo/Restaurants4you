@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.model.User
@@ -33,6 +34,10 @@ class RegistoActivity : AppCompatActivity() {
             val it = Intent(this@RegistoActivity, LoginActivity::class.java)
             startActivity(it)
         })
+
+        //to remover top bar
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.hide()
     }
 
     private fun register() {
@@ -53,7 +58,7 @@ class RegistoActivity : AppCompatActivity() {
                     t.printStackTrace()
                     Toast.makeText(
                         this@RegistoActivity,
-                        "Ocorreu um erro ao conectar ao servidor",
+                        R.string.ErrorServer,
                         Toast.LENGTH_LONG
                     ).show()
                 }
