@@ -6,4 +6,5 @@
     <string name="username">Username</string>
     <string name="confpassword">Confirmar Password</string>
     <string name="Name_File_Token">FileToken</string>
+    <string name="info">Info</string>
 </resources>

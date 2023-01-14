@@ -17,9 +17,10 @@
         android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/HelloBT"
+        android:id="@+id/btnInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello" />
+        android:textSize="15dp"
+        android:text="@string/info" />
 
 </LinearLayout>
