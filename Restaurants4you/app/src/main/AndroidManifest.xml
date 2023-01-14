@@ -27,7 +27,7 @@
         android:theme="@style/Theme.Restaurants4you"
         tools:targetApi="31">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +39,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".activity.LoginActivity"></activity>
         <activity android:name=".activity.RegistoActivity"></activity>
         <activity android:name=".activity.MapaActivity"></activity>
         <activity android:name=".fragmentos.Fragmentos"></activity>
