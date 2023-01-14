@@ -1,16 +1,9 @@
 package com.dam.restaurants4you.activity
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -24,22 +17,14 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.Overlay
 import org.osmdroid.views.overlay.compass.CompassOverlay
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class MapaActivity : AppCompatActivity(), LocationListener {
-
-    private lateinit var locationManager: LocationManager
-    private lateinit var tvGpsLocation: TextView
-    private val locationPermissionCode = 2
-
-    //Marcado para a minha localização
-    private val myMarker: Overlay? = null
-
+class MapaActivity : AppCompatActivity() {
 
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
     private lateinit var map: MapView
@@ -174,29 +159,17 @@ class MapaActivity : AppCompatActivity(), LocationListener {
         startMarker.infoWindow = Marcador(map, this, local, rt, token)
         // adiciona o marcador ao Mapa
         map.overlays.add(startMarker)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            map.controller.setCenter(point)
-        }, 1000) //espera um segundo para centrar o mapa
     }
 
 
+    /**
+     * função para obter a localização atual
+     */
     private fun getLocation() {
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
-    }
-    override fun onLocationChanged(location: Location) {
-        //tvGpsLocation = findViewById(R.id.textView)
-        //tvGpsLocation.text = "Latitude: " + location.latitude + " , Longitude: " + location.longitude
-
-        //criarMarcador(location.latitude,location.longitude,"EU", null)
-    }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        requestPermissionsIfNecessary(permissions)
+        val myLocationoverlay = MyLocationNewOverlay(map)
+        myLocationoverlay.enableFollowLocation()
+        myLocationoverlay.enableMyLocation()
+        map.getOverlays().add(myLocationoverlay)
     }
 
 }
