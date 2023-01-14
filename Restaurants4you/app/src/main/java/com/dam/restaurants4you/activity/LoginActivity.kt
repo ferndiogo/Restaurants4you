@@ -31,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
             login()
         })
 
+        //to remover top bar
         val actionBar: ActionBar? = supportActionBar
         actionBar?.hide()
 
