@@ -29,7 +29,7 @@ class Marcador: InfoWindow {
         closeAllInfoWindowsOn(mapView)
 
         // acesso ao botão e textView
-        val myHelloButton = mView.findViewById<Button>(R.id.HelloBT)
+        val myHelloButton = mView.findViewById<Button>(R.id.btnInfo)
         val myTextView = mView.findViewById<TextView>(R.id.textView)
 
         // define um valor à TextView
