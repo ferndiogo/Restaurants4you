@@ -2,6 +2,7 @@ package com.dam.restaurants4you.activity
 
 import android.Manifest
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -35,7 +36,8 @@ class MapaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mapa)
 
-        token = intent.getStringExtra("token").toString()
+        //token = intent.getStringExtra("token").toString()
+        token = loadToken()
 
         map = findViewById(R.id.mapa)
 
@@ -58,7 +60,8 @@ class MapaActivity : AppCompatActivity() {
             val call = RetrofitInitializer().restaurantService().listRestaurants(token!!)
             println("Iam Here")
             call.enqueue(object : Callback<List<Restaurant>> {
-                override fun onResponse(call: Call<List<Restaurant>>, response: Response<List<Restaurant>>
+                override fun onResponse(
+                    call: Call<List<Restaurant>>, response: Response<List<Restaurant>>
                 ) {
                     response.body().let {
                         list = it as List<Restaurant>
@@ -71,7 +74,11 @@ class MapaActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
-                    Toast.makeText(this@MapaActivity,"Token inválido ou erro no servidor", Toast.LENGTH_LONG)
+                    Toast.makeText(
+                        this@MapaActivity,
+                        "Token inválido ou erro no servidor",
+                        Toast.LENGTH_LONG
+                    )
                     val it = Intent(this@MapaActivity, LoginActivity::class.java)
                     startActivity(it)
                 }
@@ -81,8 +88,8 @@ class MapaActivity : AppCompatActivity() {
         }
     }
 
-    private fun addAllMarkers(){
-        for (rt: Restaurant in list!!){
+    private fun addAllMarkers() {
+        for (rt: Restaurant in list!!) {
             criarMarcador(rt.latitude, rt.longitude, rt.name, rt, token)
         }
     }
@@ -143,7 +150,13 @@ class MapaActivity : AppCompatActivity() {
     /**
      * função que cria um marcador com as coordenadas passadas por parametro
      */
-    private fun criarMarcador(latitude: Double, logintude: Double, local: String, rt: Restaurant, token : String?) {
+    private fun criarMarcador(
+        latitude: Double,
+        logintude: Double,
+        local: String,
+        rt: Restaurant,
+        token: String?
+    ) {
 
         // define um ponto no mapa
         // Instituto Politécnico de Tomar
@@ -170,6 +183,14 @@ class MapaActivity : AppCompatActivity() {
         myLocationoverlay.enableFollowLocation()
         myLocationoverlay.enableMyLocation()
         map.getOverlays().add(myLocationoverlay)
+    }
+
+    private fun loadToken(): String {
+        val sharedPreferences: SharedPreferences = getSharedPreferences(
+            R.string.Name_File_Token.toString(),
+            MODE_PRIVATE
+        )
+        return sharedPreferences.getString("token", "").toString()
     }
 
 }

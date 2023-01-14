@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
@@ -29,6 +30,10 @@ class LoginActivity : AppCompatActivity() {
         btnLogin.setOnClickListener(View.OnClickListener {
             login()
         })
+
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.hide()
+
     }
 
     fun login() {
@@ -40,12 +45,12 @@ class LoginActivity : AppCompatActivity() {
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 response.body().let {
-                    var token: String = it as String;
-                    token = "bearer "+token
+                    var token: String = it as String
+                    token = "bearer $token"
                     saveToken(token)
 
                     val act = Intent(this@LoginActivity, MapaActivity::class.java)
-                    act.putExtra("token", token)
+                    //act.putExtra("token", token)
                     startActivity(act)
                 }
             }
@@ -53,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
             override fun onFailure(call: Call<String>, t: Throwable) {
                 Toast.makeText(
                     this@LoginActivity,
-                    "Ocorreu um erro com o servidor",
+                    R.string.ErrorServer,
                     Toast.LENGTH_LONG
                 )
             }
