@@ -69,7 +69,7 @@ class RegistoActivity : AppCompatActivity() {
                         //val username: String? = (it as User).username
                         Toast.makeText(
                             this@RegistoActivity,
-                            "Utilizador Adicionado : username",
+                            "Utilizador Adicionado : $txtUser",
                             Toast.LENGTH_LONG
                         ).show()
                         val it = Intent(this@RegistoActivity, LoginActivity::class.java)

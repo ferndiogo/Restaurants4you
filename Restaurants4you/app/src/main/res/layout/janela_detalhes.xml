@@ -19,11 +19,7 @@
 
             <TextView
                 android:id="@+id/txtNome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:text="Nome do Restaurante"
-                android:textAlignment="center"></TextView>
+                style="@style/txtView"></TextView>
 
             <ImageView
                 android:id="@+id/imageView"
@@ -40,43 +36,23 @@
 
                 <TextView
                     android:id="@+id/txtDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:text="Descrição"
-                    android:textAlignment="center"></TextView>
+                    style="@style/txtView"></TextView>
 
                 <TextView
                     android:id="@+id/txtLocal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:text="Localização"
-                    android:textAlignment="center"></TextView>
+                    style="@style/txtView"></TextView>
 
                 <TextView
                     android:id="@+id/txtContacto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:text="Contacto"
-                    android:textAlignment="center"></TextView>
+                    style="@style/txtView"></TextView>
 
                 <TextView
                     android:id="@+id/txtEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:text="Email"
-                    android:textAlignment="center"></TextView>
+                    style="@style/txtView"></TextView>
 
                 <TextView
                     android:id="@+id/txtHorario"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:text="Horario"
-                    android:textAlignment="center"></TextView>
+                    style="@style/txtView"></TextView>
 
             </LinearLayout>
         </LinearLayout>
