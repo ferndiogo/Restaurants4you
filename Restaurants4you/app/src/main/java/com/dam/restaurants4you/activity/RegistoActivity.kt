@@ -25,7 +25,7 @@ class RegistoActivity : AppCompatActivity() {
         setContentView(R.layout.registo)
 
         val btnRegistar = findViewById<Button>(R.id.btnRegistar)
-        btnRegistar.setOnClickListener (View.OnClickListener {
+        btnRegistar.setOnClickListener(View.OnClickListener {
             register()
         })
 
@@ -64,17 +64,32 @@ class RegistoActivity : AppCompatActivity() {
                 }
 
                 override fun onResponse(call: Call<User>, response: Response<User>) {
-                    // returns the TOKEN
-                    response.body().let {
-                        //val username: String? = (it as User).username
-                        Toast.makeText(
-                            this@RegistoActivity,
-                            "Utilizador Adicionado : $txtUser",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        val it = Intent(this@RegistoActivity, LoginActivity::class.java)
-                        startActivity(it)
 
+                    if (response.code() == 400) {
+                        response.errorBody().let {
+                            val aux = it?.string()
+                            Toast.makeText(
+                                this@RegistoActivity,
+                                aux,
+                                Toast.LENGTH_LONG
+                            ).show()
+                            findViewById<EditText>(R.id.userRegisto).setText("")
+                            findViewById<EditText>(R.id.passwordRegisto).setText("")
+                            findViewById<EditText>(R.id.confPassword).setText("")
+                        }
+                    } else {
+                        // returns the TOKEN
+                        response.body().let {
+                            //val username: String? = (it as User).username
+                            Toast.makeText(
+                                this@RegistoActivity,
+                                "Utilizador Adicionado : $txtUser",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            val it = Intent(this@RegistoActivity, LoginActivity::class.java)
+                            startActivity(it)
+
+                        }
                     }
 
                 }

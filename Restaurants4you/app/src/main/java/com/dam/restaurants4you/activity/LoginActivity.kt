@@ -45,14 +45,27 @@ class LoginActivity : AppCompatActivity() {
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
-                response.body().let {
-                    var token: String = it as String
-                    token = "bearer $token"
-                    saveToken(token)
+                if (response.code() == 400) {
+                    response.errorBody().let {
+                        val aux = it?.string()
+                        Toast.makeText(
+                            this@LoginActivity,
+                            aux,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        findViewById<EditText>(R.id.userRegisto).setText("")
+                        findViewById<EditText>(R.id.passwordRegisto).setText("")
+                    }
+                } else {
+                    response.body().let {
+                        var token: String = it as String
+                        token = "bearer $token"
+                        saveToken(token)
 
-                    val act = Intent(this@LoginActivity, MapaActivity::class.java)
-                    //act.putExtra("token", token)
-                    startActivity(act)
+                        val act = Intent(this@LoginActivity, MapaActivity::class.java)
+                        //act.putExtra("token", token)
+                        startActivity(act)
+                    }
                 }
             }
 

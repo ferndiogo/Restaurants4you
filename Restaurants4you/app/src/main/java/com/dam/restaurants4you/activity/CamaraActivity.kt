@@ -33,7 +33,6 @@ class CamaraActivity : AppCompatActivity() {
     private lateinit var imgPath : String
 
     private val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-    private val TAG = "CameraXApp"
 
     private var imageCapture: ImageCapture? = null
 
@@ -75,7 +74,8 @@ class CamaraActivity : AppCompatActivity() {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
+                val path = "Pictures/Restaurants4You"
+                put(MediaStore.Images.Media.RELATIVE_PATH, path)
             }
         }
 
@@ -95,14 +95,14 @@ class CamaraActivity : AppCompatActivity() {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                    Log.e(R.string.app_name.toString(), "Photo capture failed: ${exc.message}", exc)
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     imgPath = output.savedUri.toString()
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
+                    Log.d(R.string.app_name.toString(), msg)
                 }
             }
         )
@@ -139,7 +139,7 @@ class CamaraActivity : AppCompatActivity() {
 
 
             } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                Log.e(R.string.app_name.toString(), "Use case binding failed", exc)
             }
 
         }, ContextCompat.getMainExecutor(this))
