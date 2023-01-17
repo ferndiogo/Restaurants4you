@@ -23,5 +23,13 @@ interface UserService {
         @Part("password") pass: String
     ): Call<String>
 
+    @GET("api/Auth/Username")
+    fun getUsername(
+        @Header("Authorization") token: String
+    ): Call<String>
 
+    @GET("api/Auth/Roles")
+    fun getRoles(
+        @Header("Authorization") token: String
+    ): Call<String>
 }
