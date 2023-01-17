@@ -8,4 +8,5 @@
     <string name="Name_File_Token">FileToken</string>
     <string name="info">Info</string>
     <string name="ErrorServer">Ocorreu um erro com o servidor</string>
+    <string name="take_photo">Tirar Foto</string>
 </resources>

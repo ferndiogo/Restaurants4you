@@ -1,7 +1,9 @@
 package com.dam.restaurants4you.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -52,6 +54,12 @@ class RestaurantesActivity() : AppCompatActivity() {
 
 
         })
+
+        val startCamara = findViewById<Button>(R.id.startCamara)
+        startCamara.setOnClickListener {
+            val cam = Intent(this@RestaurantesActivity, CamaraActivity::class.java)
+            startActivity(cam)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/txtNome"
-                style="@style/txtView"></TextView>
+                style="@style/txtView"/>
 
             <ImageView
                 android:id="@+id/imageView"
@@ -36,25 +36,31 @@
 
                 <TextView
                     android:id="@+id/txtDesc"
-                    style="@style/txtView"></TextView>
+                    style="@style/txtView"/>
 
                 <TextView
                     android:id="@+id/txtLocal"
-                    style="@style/txtView"></TextView>
+                    style="@style/txtView"/>
 
                 <TextView
                     android:id="@+id/txtContacto"
-                    style="@style/txtView"></TextView>
+                    style="@style/txtView"/>
 
                 <TextView
                     android:id="@+id/txtEmail"
-                    style="@style/txtView"></TextView>
+                    style="@style/txtView"/>
 
                 <TextView
                     android:id="@+id/txtHorario"
-                    style="@style/txtView"></TextView>
+                    style="@style/txtView"/>
+                <Button
+                    android:id="@+id/startCamara"
+                    android:text="Abrir câmara"
+                    style="@style/txtView"/>
+
 
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

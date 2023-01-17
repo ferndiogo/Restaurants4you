@@ -11,7 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:name="android.hardware.camera.any" />
 
     <application
 
@@ -43,6 +45,7 @@
         <activity android:name=".activity.RegistoActivity"></activity>
         <activity android:name=".fragmentos.Fragmentos"></activity>
         <activity android:name=".activity.RestaurantesActivity"></activity>
+        <activity android:name=".activity.CamaraActivity"></activity>
     </application>
 
 </manifest>
