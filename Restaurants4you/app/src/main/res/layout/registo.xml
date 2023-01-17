@@ -11,41 +11,48 @@
 
     <EditText
         android:id="@+id/userRegisto"
+        style="@style/editText"
+        android:autofillHints="username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.405"
-        style="@style/editText"/>
+        app:layout_constraintVertical_bias="0.405" />
 
     <EditText
         android:id="@+id/passwordRegisto"
-        android:inputType="textPassword"
+        style="@style/editText"
+        android:autofillHints="password"
         android:hint="@string/password"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.483"
-        style="@style/editText"/>
+        app:layout_constraintVertical_bias="0.488"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <EditText
         android:id="@+id/confPassword"
-        android:hint="@string/password"
+        style="@style/editText"
+        android:autofillHints="password"
+        android:hint="@string/confpassword"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.555"
-        style="@style/editText"/>
+        app:layout_constraintVertical_bias="0.573" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
+        style="@style/materialButton"
         android:text="@string/login"
+        android:textColor="@color/white"
         app:cornerRadius="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,10 +60,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.81"
-        style="@style/materialButton"/>
+        tools:ignore="TextContrastCheck" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegistar"
+        style="@style/materialButton"
         android:text="@string/registo"
         app:cornerRadius="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +72,6 @@
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.634"
-        style="@style/materialButton"/>
+        app:layout_constraintVertical_bias="0.659" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
