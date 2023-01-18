@@ -10,7 +10,7 @@
     <string name="ErrorServer">Ocorreu um erro com o servidor</string>
     <string name="take_photo">Tirar Foto</string>
     <string name="nome_do_restaurante">Nome</string>
-    <string name="adicionar_restaurante">Adicionar Restaurante</string>
+    <string name="adicionar_restaurante">Gerir Restaurante</string>
     <string name="descri_o">Descrição</string>
     <string name="morada">Morada</string>
     <string name="contacto">Contacto</string>
@@ -21,4 +21,8 @@
     <string name="ainda_n_o_tens_conta_regista_te_aqui">Ainda não tens conta? Regista-te aqui</string>
     <string name="j_tens_conta_faz_aqui_log_in">Já tens conta? Faz aqui Log In</string>
     <string name="adicionar">Adicionar</string>
+    <string name="mapa">Mapa</string>
+    <string name="consulte_aqui_o_mapa">Consulte aqui o mapa de restaurantes aderentes:</string>
+    <string name="registe_aqui_o_seu_restaurante">Gira aqui o seu restaurante ou resgiste-o caso ainda não o tenha feito:</string>
+    <string name="bem_vindo">Olá, bem vindo!</string>
 </resources>

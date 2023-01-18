@@ -46,6 +46,7 @@
         <activity android:name=".fragmentos.Fragmentos"></activity>
         <activity android:name=".activity.RestaurantesActivity"></activity>
         <activity android:name=".activity.CamaraActivity"></activity>
+        <activity android:name=".activity.RoleRActivity"></activity>
     </application>
 
 </manifest>

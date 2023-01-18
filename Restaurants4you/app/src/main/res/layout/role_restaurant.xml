@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"/>
+
+
+        <TextView
+            style="@style/titulo"
+            android:text="@string/bem_vindo" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"/>
+
+
+        <TextView
+            style="@style/txtLoginRegisto"
+            android:text="@string/consulte_aqui_o_mapa" />
+
+        <Button
+            android:id="@+id/btnMapa"
+            style="@style/btn"
+            android:text="@string/mapa" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            style="@style/txtLoginRegisto"
+            android:text="@string/registe_aqui_o_seu_restaurante" />
+
+        <Button
+            android:id="@+id/btnGere"
+            style="@style/btn"
+            android:text="@string/adicionar_restaurante" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
