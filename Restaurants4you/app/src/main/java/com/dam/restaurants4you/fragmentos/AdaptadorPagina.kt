@@ -12,9 +12,9 @@ class AdaptadorPagina(fragmentActivity: FragmentActivity) : FragmentStateAdapter
 
     override fun createFragment(position: Int): Fragment {
         when(position) {
-            0 -> return FragmentoMapa()
+            0 -> return FragmentoRestaurantes()
             1 -> return FragmentoRestaurantes()
-            else -> return FragmentoMapa()
+            else -> return FragmentoRestaurantes()
         }
     }
 

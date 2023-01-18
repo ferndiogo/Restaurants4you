@@ -9,4 +9,13 @@
     <string name="info">Info</string>
     <string name="ErrorServer">Ocorreu um erro com o servidor</string>
     <string name="take_photo">Tirar Foto</string>
+    <string name="nome_do_restaurante">Nome</string>
+    <string name="adicionar_restaurante">Adicionar Restaurante</string>
+    <string name="descri_o">Descrição</string>
+    <string name="morada">Morada</string>
+    <string name="contacto">Contacto</string>
+    <string name="email">Email</string>
+    <string name="hor_rio">Horário</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
 </resources>
