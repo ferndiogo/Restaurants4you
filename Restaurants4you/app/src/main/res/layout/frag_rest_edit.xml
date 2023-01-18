@@ -18,7 +18,7 @@
 
             <TextView
                 style="@style/titulo"
-                android:text="@string/add_restaurante" />
+                android:text="@string/edit_restaurante" />
 
 
             <EditText
@@ -84,7 +84,7 @@
             <Button
                 android:id="@+id/btnGere"
                 style="@style/btn"
-                android:text="@string/adicionar" />
+                android:text="@string/editar" />
 
 
         </LinearLayout>

@@ -46,7 +46,7 @@
         <Button
             android:id="@+id/btnGere"
             style="@style/btn"
-            android:text="@string/adicionar_restaurante" />
+            android:text="@string/gerir_restaurante" />
 
     </LinearLayout>
 
