@@ -9,16 +9,14 @@ import com.dam.restaurants4you.R
 
 
 
-class FragmentoRestaurantes : Fragment() {
-
-
+class FragEditRest : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.janela_detalhes, container, false)
+        return inflater.inflate(R.layout.frag_rest_edit, container, false)
     }
 
 

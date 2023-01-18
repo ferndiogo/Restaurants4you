@@ -29,4 +29,5 @@
     <string name="edit_restaurante">Editar Restaurante</string>
     <string name="apagar">Apagar</string>
     <string name="editar">Editar</string>
+    <string name="apagar_restaurante">Apagar Restaurante</string>
 </resources>

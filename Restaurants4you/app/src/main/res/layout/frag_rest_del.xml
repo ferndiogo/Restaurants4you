@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                style="@style/titulo"
+                android:text="@string/apagar_restaurante" />
+
+
+            <EditText
+                android:id="@+id/txtRest"
+                style="@style/edittext"
+                android:autofillHints=""
+                android:hint="@string/nome_do_restaurante"
+                android:inputType="text" />
+
+
+            <EditText
+                android:id="@+id/txtDesc"
+                style="@style/edittext"
+                android:autofillHints=""
+                android:gravity="start|top"
+                android:hint="@string/descri_o"
+                android:inputType="textMultiLine" />
+
+            <EditText
+                android:id="@+id/txtMorada"
+                style="@style/edittext"
+                android:autofillHints=""
+                android:gravity="start|top"
+                android:hint="@string/morada"
+                android:inputType="textMultiLine" />
+
+            <EditText
+                android:id="@+id/txtContacto"
+                style="@style/edittext"
+                android:autofillHints=""
+                android:hint="@string/contacto"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/txtEmail"
+                style="@style/edittext"
+                android:autofillHints=""
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/txtHorario"
+                style="@style/edittext"
+                android:autofillHints=""
+                android:gravity="start|top"
+                android:hint="@string/hor_rio"
+                android:inputType="textMultiLine" />
+
+            <EditText
+                android:id="@+id/txtLat"
+                style="@style/edittext"
+                android:autofillHints=""
+                android:hint="@string/latitude"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/txtLong"
+                style="@style/edittext"
+                android:autofillHints=""
+                android:hint="@string/longitude"
+                android:inputType="numberDecimal" />
+
+            <Button
+                android:id="@+id/btnGere"
+                style="@style/btn"
+                android:text="@string/apagar" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
