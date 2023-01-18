@@ -18,4 +18,7 @@
     <string name="hor_rio">Horário</string>
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
+    <string name="ainda_n_o_tens_conta_regista_te_aqui">Ainda não tens conta? Regista-te aqui</string>
+    <string name="j_tens_conta_faz_aqui_log_in">Já tens conta? Faz aqui Log In</string>
+    <string name="adicionar">Adicionar</string>
 </resources>

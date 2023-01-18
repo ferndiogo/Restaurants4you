@@ -2,58 +2,68 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login"
+    android:background="@drawable/fundo">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        style="@style/titulo"
+        android:text="@string/login" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"/>
 
     <EditText
         android:id="@+id/userRegisto"
-        style="@style/editText"
-        android:autofillHints="username"
+        style="@style/edittext"
+        android:autofillHints=""
         android:hint="@string/username"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.405" />
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/passwordRegisto"
-        style="@style/editText"
-        android:autofillHints="password"
+        style="@style/edittext"
+        android:autofillHints=""
         android:hint="@string/password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.488" />
+        android:layout_marginBottom="200dp"
+        android:inputType="textPassword" />
 
-    <com.google.android.material.button.MaterialButton
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
+
+    <Button
         android:id="@+id/btnLogin"
-        style="@style/materialButton"
-        android:text="@string/login"
-        app:cornerRadius="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.557" />
+        style="@style/btn"
+        android:text="@string/login" />
 
-    <com.google.android.material.button.MaterialButton
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="170dp"/>
+
+    <TextView
+        style="@style/txtLoginRegisto"
+        android:text="@string/ainda_n_o_tens_conta_regista_te_aqui" />
+
+    <Button
         android:id="@+id/btnRegistar"
-        style="@style/materialButton"
-        android:text="@string/registo"
-        app:cornerRadius="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.896" />
+        style="@style/btn"
+        android:text="@string/registo" />
+
+</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
