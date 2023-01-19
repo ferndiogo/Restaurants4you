@@ -36,7 +36,6 @@ class MapaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mapa)
 
-        //token = intent.getStringExtra("token").toString()
         token = loadToken()
 
         map = findViewById(R.id.mapa)
@@ -52,40 +51,33 @@ class MapaActivity : AppCompatActivity() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
         )
-
-        if (token.isNullOrBlank()) {
-            val it = Intent(this@MapaActivity, LoginActivity::class.java)
-            startActivity(it)
-        } else {
-            val call = RetrofitInitializer().restaurantService().listRestaurants(token!!)
-            println("Iam Here")
-            call.enqueue(object : Callback<List<Restaurant>> {
-                override fun onResponse(
-                    call: Call<List<Restaurant>>, response: Response<List<Restaurant>>
-                ) {
-                    response.body().let {
-                        list = it as List<Restaurant>
-                    }
-                    showMap()
-                    addAllMarkers()
-                    getLocation()
-                    //list?.get(0)?.let { println(it.id)
-
+        val call = RetrofitInitializer().restaurantService().listRestaurants(token!!)
+        call.enqueue(object : Callback<List<Restaurant>> {
+            override fun onResponse(
+                call: Call<List<Restaurant>>, response: Response<List<Restaurant>>
+            ) {
+                response.body().let {
+                    list = it as List<Restaurant>
                 }
+                showMap()
+                addAllMarkers()
+                getLocation()
+                //list?.get(0)?.let { println(it.id)
 
-                override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
-                    Toast.makeText(
-                        this@MapaActivity,
-                        "Token inválido ou erro no servidor",
-                        Toast.LENGTH_LONG
-                    )
-                    val it = Intent(this@MapaActivity, LoginActivity::class.java)
-                    startActivity(it)
-                }
+            }
 
-            })
+            override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
+                Toast.makeText(
+                    this@MapaActivity,
+                    "Token inválido ou erro no servidor",
+                    Toast.LENGTH_LONG
+                )
+                val it = Intent(this@MapaActivity, LoginActivity::class.java)
+                startActivity(it)
+            }
 
-        }
+        })
+
     }
 
     private fun addAllMarkers() {
@@ -140,7 +132,7 @@ class MapaActivity : AppCompatActivity() {
         }
         if (permissionsToRequest.size > 0) {
             ActivityCompat.requestPermissions(
-                this,
+                this@MapaActivity,
                 permissionsToRequest.toArray(arrayOf<String>()),
                 REQUEST_PERMISSIONS_REQUEST_CODE
             );

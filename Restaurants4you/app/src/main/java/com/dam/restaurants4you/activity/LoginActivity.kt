@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                         token = "bearer $token"
                         saveToken(token)
 
-                        val act = Intent(this@LoginActivity, MapaActivity::class.java)
+                        val act = Intent(this@LoginActivity, RoleRActivity::class.java)
                         //act.putExtra("token", token)
                         startActivity(act)
                     }
