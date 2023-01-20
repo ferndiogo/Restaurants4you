@@ -17,6 +17,7 @@
 
     <application
 
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup"
         android:allowBackup="true"
