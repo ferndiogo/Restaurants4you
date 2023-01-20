@@ -48,7 +48,8 @@ class MapaActivity : AppCompatActivity() {
                 Manifest.permission.INTERNET,
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
             )
         )
         val call = RetrofitInitializer().restaurantService().listRestaurants(token!!)
