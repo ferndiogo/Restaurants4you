@@ -1,9 +1,9 @@
 package com.dam.restaurants4you.activity
 
-import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.dam.restaurants4you.R
+import com.dam.restaurants4you.model.ImageRest
 import com.dam.restaurants4you.model.Restaurant
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
 import okhttp3.MediaType
@@ -30,7 +31,9 @@ class RestaurantesActivity() : AppCompatActivity() {
 
     private var restaurant: Restaurant? = null
     private val options = arrayOf<CharSequence>("Câmara ", "Galeria", "Cancelar")
+    private lateinit var file: File
 
+    private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,13 +97,25 @@ class RestaurantesActivity() : AppCompatActivity() {
         val btnSubmeter = findViewById<Button>(R.id.btnSub)
         btnSubmeter.setOnClickListener(View.OnClickListener {
 
-            //val file = File(getRealPathFromURI(imageUri))
-            //val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-            //val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+            if (restaurant != null) {
+                //val imagem = MultipartBody.Part.createFormData("imagem", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))
 
+                val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                val imagePart = MultipartBody.Part.createFormData("imagem", file.name, requestFile)
+
+              val call =  RetrofitInitializer().imageService().addImage(token, restaurant!!.id, imagePart)
+              call.enqueue(object : Callback<ImageRest> {
+                  override fun onResponse(call: Call<ImageRest>, response: Response<ImageRest>) {
+                      Toast.makeText(this@RestaurantesActivity, "Imagem Submetida", Toast.LENGTH_LONG).show()
+                  }
+
+                  override fun onFailure(call: Call<ImageRest>, t: Throwable) {
+                      Toast.makeText(this@RestaurantesActivity, "Houve um erro a submeter a Imagem", Toast.LENGTH_LONG).show()
+                  }
+              })
+            }
         })
     }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -117,12 +132,27 @@ class RestaurantesActivity() : AppCompatActivity() {
 
                     val txtImgSelec = findViewById<TextView>(R.id.txtImgSelec)
                     txtImgSelec.text = "Imagem Selecionada"
+
+
                 }
 
                 1 -> if (resultCode === RESULT_OK && data != null) {
-                    val imageUri = data?.data
+                    imageUri = data?.data!!
+                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                    val cursor = contentResolver.query(imageUri!!, filePathColumn, null, null, null)
+                    cursor!!.moveToFirst()
+                    val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+                    val imgDecodableString = cursor.getString(columnIndex)
+                    cursor.close()
+                    file = File(imgDecodableString)
+
+
+                    println(file)
+
+                    println(file)
+
                     val imageSelect = findViewById<ImageView>(R.id.imageSelect)
-                    Glide.with(this@RestaurantesActivity).load(imageUri).into(imageSelect)
+                    Glide.with(this@RestaurantesActivity).load(file).into(imageSelect)
 
                     val txtImgSelec = findViewById<TextView>(R.id.txtImgSelec)
                     txtImgSelec.text = "Imagem Selecionada"

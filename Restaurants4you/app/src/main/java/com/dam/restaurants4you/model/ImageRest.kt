@@ -13,5 +13,5 @@ data class ImageRest(
     val restFK: Int,
 
     @SerializedName("restaurant")
-    val rest: Restaurant,
+    var rest: Restaurant,
 )

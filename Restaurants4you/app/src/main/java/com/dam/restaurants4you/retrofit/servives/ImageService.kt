@@ -1,6 +1,7 @@
 package com.dam.restaurants4you.retrofit.servives
 
 import com.dam.restaurants4you.model.ImageRest
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 import java.io.File
@@ -23,8 +24,8 @@ interface ImageService {
     @POST("api/Images")
     fun addImage(
         @Header("Authorization") token:String,
-        @Part("images") img: ImageRest,
-        @Part("imagem") file: File
+        @Part("RestaurantFK") restaurantFK: Int,
+        @Part imagem: MultipartBody.Part
     ): Call<ImageRest>
 
     @Multipart
