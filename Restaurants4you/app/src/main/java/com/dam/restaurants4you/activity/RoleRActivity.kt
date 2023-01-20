@@ -36,7 +36,7 @@ class RoleRActivity : AppCompatActivity() {
                     call: Call<String>, response: Response<String>
                 ) {
                     response.body().let {
-                        val role = it as String
+                        var role: String = it as String
                         if(role == "User"){
                             val it = Intent(this@RoleRActivity, MapaActivity::class.java)
                             startActivity(it)

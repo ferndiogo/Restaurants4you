@@ -1,24 +1,35 @@
 package com.dam.restaurants4you.activity
 
-import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.model.Restaurant
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+
 
 class RestaurantesActivity() : AppCompatActivity() {
 
     private var restaurant: Restaurant? = null
+    private val options = arrayOf<CharSequence>("Câmara ", "Galeria", "Cancelar")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,11 +66,63 @@ class RestaurantesActivity() : AppCompatActivity() {
 
         })
 
-        val startCamara = findViewById<Button>(R.id.startCamara)
-        startCamara.setOnClickListener {
-            val cam = Intent(this@RestaurantesActivity, CamaraActivity::class.java)
-            startActivity(cam)
+        val btnUpload = findViewById<Button>(R.id.btnUpload)
+        btnUpload.setOnClickListener(View.OnClickListener {
+            val builder = AlertDialog.Builder(this@RestaurantesActivity)
+            builder.setTitle("Selecionar Imagem")
+            builder.setItems(options, object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    println(which)
+                    if (which == 0) {
+                        val takePic = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        startActivityForResult(takePic, 0)
+                    } else if (which == 1) {
+                        val intent = Intent(Intent.ACTION_PICK)
+                        intent.type = "image/*"
+                        startActivityForResult(intent, 1)
+                    } else {
+                        dialog.dismiss()
+                    }
+                }
+            })
+
+            builder.show()
+        })
+
+
+        val btnSubmeter = findViewById<Button>(R.id.btnSub)
+        btnSubmeter.setOnClickListener(View.OnClickListener {
+
+            //val file = File(getRealPathFromURI(imageUri))
+            //val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+            //val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+        })
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode !== RESULT_CANCELED) {
+
+            when (requestCode) {
+
+                0 -> if (resultCode === RESULT_OK && data != null) {
+                    val image: Bitmap? = data.extras!!["data"] as Bitmap?
+                    val imageSelect = findViewById<ImageView>(R.id.imageSelect)
+                    Glide.with(this@RestaurantesActivity).load(image).into(imageSelect)
+                }
+
+                1 -> if (resultCode === RESULT_OK && data != null) {
+                    val imageUri = data?.data
+                    val imageSelect = findViewById<ImageView>(R.id.imageSelect)
+                    Glide.with(this@RestaurantesActivity).load(imageUri).into(imageSelect)
+                    //println(imageUri)
+                }
+            }
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -67,7 +130,7 @@ class RestaurantesActivity() : AppCompatActivity() {
         return true
     }
 
-    private fun processRestaurant(){
+    private fun processRestaurant() {
         val txtNome = findViewById<TextView>(R.id.txtNome)
         val txtDesc = findViewById<TextView>(R.id.txtDesc)
         val txtLocal = findViewById<TextView>(R.id.txtLocal)

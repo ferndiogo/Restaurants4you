@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,7 +18,7 @@
 
             <TextView
                 android:id="@+id/txtNome"
-                style="@style/txtView"/>
+                style="@style/txtView" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -36,27 +35,55 @@
 
                 <TextView
                     android:id="@+id/txtDesc"
-                    style="@style/txtView"/>
+                    style="@style/txtView" />
 
                 <TextView
                     android:id="@+id/txtLocal"
-                    style="@style/txtView"/>
+                    style="@style/txtView" />
 
                 <TextView
                     android:id="@+id/txtContacto"
-                    style="@style/txtView"/>
+                    style="@style/txtView" />
 
                 <TextView
                     android:id="@+id/txtEmail"
-                    style="@style/txtView"/>
+                    style="@style/txtView" />
 
                 <TextView
                     android:id="@+id/txtHorario"
-                    style="@style/txtView"/>
+                    style="@style/txtView" />
+
                 <Button
-                    android:id="@+id/startCamara"
-                    android:text="Abrir câmara"
-                    style="@style/txtView"/>
+                    android:id="@+id/btnUpload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginRight="80dp"
+                    android:text="@string/selecionar_imagem" />
+
+                <ImageView
+                    android:id="@+id/imageSelect"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true" />
+
+                <TextView
+                    style="@style/txtView"
+                    android:text="Imagem Selecionada"/>
+
+                <Button
+                    android:id="@+id/btnSub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginRight="80dp"
+                    android:text="Submeter" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
 
 
             </LinearLayout>
