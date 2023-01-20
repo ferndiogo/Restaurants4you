@@ -1,5 +1,6 @@
 package com.dam.restaurants4you.activity
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
@@ -101,6 +102,7 @@ class RestaurantesActivity() : AppCompatActivity() {
     }
 
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -112,12 +114,18 @@ class RestaurantesActivity() : AppCompatActivity() {
                     val image: Bitmap? = data.extras!!["data"] as Bitmap?
                     val imageSelect = findViewById<ImageView>(R.id.imageSelect)
                     Glide.with(this@RestaurantesActivity).load(image).into(imageSelect)
+
+                    val txtImgSelec = findViewById<TextView>(R.id.txtImgSelec)
+                    txtImgSelec.text = "Imagem Selecionada"
                 }
 
                 1 -> if (resultCode === RESULT_OK && data != null) {
                     val imageUri = data?.data
                     val imageSelect = findViewById<ImageView>(R.id.imageSelect)
                     Glide.with(this@RestaurantesActivity).load(imageUri).into(imageSelect)
+
+                    val txtImgSelec = findViewById<TextView>(R.id.txtImgSelec)
+                    txtImgSelec.text = "Imagem Selecionada"
                     //println(imageUri)
                 }
             }

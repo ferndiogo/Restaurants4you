@@ -70,8 +70,9 @@
                     android:adjustViewBounds="true" />
 
                 <TextView
+                    android:id="@+id/txtImgSelec"
                     style="@style/txtView"
-                    android:text="Imagem Selecionada"/>
+                    android:text="@string/nenhuma_imagem_selecionada"/>
 
                 <Button
                     android:id="@+id/btnSub"
@@ -79,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="80dp"
                     android:layout_marginRight="80dp"
-                    android:text="Submeter" />
+                    android:text="@string/submeter" />
 
                 <Space
                     android:layout_width="match_parent"

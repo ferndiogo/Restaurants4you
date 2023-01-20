@@ -32,4 +32,6 @@
     <string name="apagar_restaurante">Apagar Restaurante</string>
     <string name="selecionar_restaurante">Selecionar Restaurante</string>
     <string name="selecionar_imagem">Selecionar Imagem</string>
+    <string name="nenhuma_imagem_selecionada">Nenhuma Imagem Selecionada</string>
+    <string name="submeter">Submeter</string>
 </resources>
