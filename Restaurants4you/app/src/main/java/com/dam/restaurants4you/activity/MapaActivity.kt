@@ -26,6 +26,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 
 class MapaActivity : AppCompatActivity() {
@@ -36,12 +37,10 @@ class MapaActivity : AppCompatActivity() {
     private var list: List<Restaurant>? = null
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mapa)
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         token = loadToken()
 
@@ -218,5 +217,9 @@ class MapaActivity : AppCompatActivity() {
         )
         return sharedPreferences.getString("token", "").toString()
     }
+
+
+
+
 
 }

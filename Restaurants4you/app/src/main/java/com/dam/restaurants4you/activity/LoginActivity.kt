@@ -3,6 +3,8 @@ package com.dam.restaurants4you.activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -16,9 +18,54 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var token: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
+
+        token = loadToken()
+
+        if (!(token.isNullOrBlank())) {
+
+            val call = RetrofitInitializer().userService().getRoles(token)
+            println("Iam Here")
+            call.enqueue(object : Callback<String> {
+                override fun onResponse(
+                    call: Call<String>, response: Response<String>
+                ) {
+                    response.body().let {
+                        var role: String = it as String
+                        if (role == "Restaurant") {
+                            val it = Intent(this@LoginActivity, RoleRActivity::class.java)
+                            startActivity(it)
+                        } else if (role == "User") {
+                            val it = Intent(this@LoginActivity, MapaActivity::class.java)
+                            startActivity(it)
+                        } else {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Ocorreu um erro a verificar o tipo de utilizador",
+                                Toast.LENGTH_LONG
+                            )
+                        }
+                    }
+
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Token inválido ou erro no servidor",
+                        Toast.LENGTH_LONG
+                    )
+                    val it = Intent(this@LoginActivity, LoginActivity::class.java)
+                    startActivity(it)
+                }
+
+            })
+        }
+
 
         val btnRegisto = findViewById<Button>(R.id.btnRegistar)
         btnRegisto.setOnClickListener(View.OnClickListener {
@@ -31,10 +78,23 @@ class LoginActivity : AppCompatActivity() {
             login()
         })
 
-        //to remover top bar
-        val actionBar: ActionBar? = supportActionBar
-        actionBar?.hide()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.custom_menu1, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.info -> {
+                val it = Intent(this@LoginActivity, SobreActivity::class.java)
+                startActivity(it)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     fun login() {
@@ -55,6 +115,7 @@ class LoginActivity : AppCompatActivity() {
                         ).show()
                         findViewById<EditText>(R.id.userRegisto).setText("")
                         findViewById<EditText>(R.id.passwordRegisto).setText("")
+
                     }
                 } else {
                     response.body().let {
@@ -62,9 +123,42 @@ class LoginActivity : AppCompatActivity() {
                         token = "bearer $token"
                         saveToken(token)
 
-                        val act = Intent(this@LoginActivity, RoleRActivity::class.java)
-                        //act.putExtra("token", token)
-                        startActivity(act)
+                        val call = RetrofitInitializer().userService().getRoles(token)
+                        println("Iam Here")
+                        call.enqueue(object : Callback<String> {
+                            override fun onResponse(
+                                call: Call<String>, response: Response<String>
+                            ) {
+                                response.body().let {
+                                    var role: String = it as String
+                                    if (role == "Restaurant") {
+                                        val it = Intent(this@LoginActivity, RoleRActivity::class.java)
+                                        startActivity(it)
+                                    } else if (role == "User") {
+                                        val it = Intent(this@LoginActivity, MapaActivity::class.java)
+                                        startActivity(it)
+                                    } else {
+                                        Toast.makeText(
+                                            this@LoginActivity,
+                                            "Ocorreu um erro a verificar o tipo de utilizador",
+                                            Toast.LENGTH_LONG
+                                        )
+                                    }
+                                }
+
+                            }
+
+                            override fun onFailure(call: Call<String>, t: Throwable) {
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "Token inválido ou erro no servidor",
+                                    Toast.LENGTH_LONG
+                                )
+                                val it = Intent(this@LoginActivity, LoginActivity::class.java)
+                                startActivity(it)
+                            }
+
+                        })
                     }
                 }
             }
@@ -78,6 +172,14 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun loadToken(): String {
+        val sharedPreferences: SharedPreferences = getSharedPreferences(
+            R.string.Name_File_Token.toString(),
+            MODE_PRIVATE
+        )
+        return sharedPreferences.getString("token", "").toString()
     }
 
     fun saveToken(token: String) {
