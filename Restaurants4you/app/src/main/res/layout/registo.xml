@@ -8,13 +8,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp" />
+            android:layout_height="30dp" />
 
         <TextView
             style="@style/titulo"
@@ -22,8 +22,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp" />
+            android:layout_height="40dp" />
 
         <EditText
             android:id="@+id/userRegisto"
@@ -50,8 +49,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" />
+            android:layout_height="20dp" />
 
         <Button
             android:id="@+id/btnRegistar"
@@ -60,8 +58,17 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="110dp" />
+            android:layout_height="110dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="30dp">
 
         <TextView
             style="@style/txtLoginRegisto"
@@ -73,7 +80,6 @@
             android:id="@+id/btnLogin"
             style="@style/btn"
             android:text="@string/login" />
-
     </LinearLayout>
 
 

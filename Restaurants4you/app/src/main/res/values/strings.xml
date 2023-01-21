@@ -34,4 +34,6 @@
     <string name="selecionar_imagem">Selecionar Imagem</string>
     <string name="nenhuma_imagem_selecionada">Nenhuma Imagem Selecionada</string>
     <string name="submeter">Submeter</string>
+    <string name="logout">Logout</string>
+    <string name="sobre">Sobre</string>
 </resources>
