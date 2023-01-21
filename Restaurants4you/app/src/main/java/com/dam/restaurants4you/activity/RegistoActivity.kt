@@ -2,6 +2,8 @@ package com.dam.restaurants4you.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -35,9 +37,22 @@ class RegistoActivity : AppCompatActivity() {
             startActivity(it)
         })
 
-        //to remover top bar
-        val actionBar: ActionBar? = supportActionBar
-        actionBar?.hide()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.custom_menu1, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.info -> {
+                val it = Intent(this@RegistoActivity, SobreActivity::class.java)
+                startActivity(it)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun register() {

@@ -23,6 +23,8 @@ class Fragmentos : AppCompatActivity(){
         viewPager2.adapter = myViewPagerAdapter
         viewPager2.setUserInputEnabled(false);
 
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -43,6 +45,11 @@ class Fragmentos : AppCompatActivity(){
                 tabLayout.getTabAt(position)?.select()
             }
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
 

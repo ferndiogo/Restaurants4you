@@ -5,6 +5,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -32,9 +35,13 @@ class MapaActivity : AppCompatActivity() {
     private var token: String? = null
     private var list: List<Restaurant>? = null
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mapa)
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         token = loadToken()
 
@@ -52,6 +59,7 @@ class MapaActivity : AppCompatActivity() {
                 Manifest.permission.CAMERA
             )
         )
+
         val call = RetrofitInitializer().restaurantService().listRestaurants(token!!)
         call.enqueue(object : Callback<List<Restaurant>> {
             override fun onResponse(
@@ -79,6 +87,31 @@ class MapaActivity : AppCompatActivity() {
 
         })
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.custom_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.logOut -> {
+                Toast.makeText(this@MapaActivity, "Logout com sucesso!", Toast.LENGTH_LONG).show()
+                return true
+            }
+            R.id.info -> {
+                val it = Intent(this@MapaActivity, SobreActivity::class.java)
+                startActivity(it)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun addAllMarkers() {
