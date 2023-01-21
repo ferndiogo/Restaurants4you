@@ -48,6 +48,7 @@
         <activity android:name=".activity.RestaurantesActivity"></activity>
         <activity android:name=".activity.CamaraActivity"></activity>
         <activity android:name=".fragmentos.Fragmentos"></activity>
+        <activity android:name=".activity.SobreActivity"></activity>
     </application>
 
 </manifest>
