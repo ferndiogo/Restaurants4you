@@ -1,7 +1,9 @@
 package com.dam.restaurants4you.activity
 
+import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,6 +13,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
 import retrofit2.Call
@@ -20,9 +24,25 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var token: String
+    private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
+
+        requestPermissionsIfNecessary(
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            )
+        )
+
 
         token = loadToken()
 
@@ -172,6 +192,29 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    /**
+     * função para coletar as permissões do utilizador
+     */
+    private fun requestPermissionsIfNecessary(permissions: Array<out String>) {
+        val permissionsToRequest = ArrayList<String>();
+        permissions.forEach { permission ->
+            if (ContextCompat.checkSelfPermission(
+                    this, permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // a permissão não é concedida
+                permissionsToRequest.add(permission);
+            }
+        }
+        if (permissionsToRequest.size > 0) {
+            ActivityCompat.requestPermissions(
+                this@LoginActivity,
+                permissionsToRequest.toArray(arrayOf<String>()),
+                REQUEST_PERMISSIONS_REQUEST_CODE
+            );
+        }
     }
 
     private fun loadToken(): String {

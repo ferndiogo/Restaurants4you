@@ -31,7 +31,6 @@ import kotlin.properties.Delegates
 
 class MapaActivity : AppCompatActivity() {
 
-    private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
     private lateinit var map: MapView
     private var token: String? = null
     private var list: List<Restaurant>? = null
@@ -41,23 +40,11 @@ class MapaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mapa)
 
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         token = loadToken()
 
         map = findViewById(R.id.mapa)
-
-        requestPermissionsIfNecessary(
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.INTERNET,
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            )
-        )
 
         val call = RetrofitInitializer().restaurantService().listRestaurants(token!!)
         call.enqueue(object : Callback<List<Restaurant>> {
@@ -147,29 +134,6 @@ class MapaActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         map.onResume()
-    }
-
-    /**
-     * função para coletar as permissões do utilizador
-     */
-    private fun requestPermissionsIfNecessary(permissions: Array<out String>) {
-        val permissionsToRequest = ArrayList<String>();
-        permissions.forEach { permission ->
-            if (ContextCompat.checkSelfPermission(
-                    this, permission
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // a permissão não é concedida
-                permissionsToRequest.add(permission);
-            }
-        }
-        if (permissionsToRequest.size > 0) {
-            ActivityCompat.requestPermissions(
-                this@MapaActivity,
-                permissionsToRequest.toArray(arrayOf<String>()),
-                REQUEST_PERMISSIONS_REQUEST_CODE
-            );
-        }
     }
 
     /**
