@@ -59,9 +59,7 @@ class RestaurantesActivity() : AppCompatActivity() {
 
             override fun onFailure(call: Call<Restaurant>, t: Throwable) {
                 Toast.makeText(
-                    this@RestaurantesActivity,
-                    R.string.ErrorServer,
-                    Toast.LENGTH_LONG
+                    this@RestaurantesActivity, R.string.ErrorServer, Toast.LENGTH_LONG
                 ).show()
                 val it = Intent(this@RestaurantesActivity, LoginActivity::class.java)
                 startActivity(it)
@@ -103,16 +101,23 @@ class RestaurantesActivity() : AppCompatActivity() {
                 val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
                 val imagePart = MultipartBody.Part.createFormData("imagem", file.name, requestFile)
 
-              val call =  RetrofitInitializer().imageService().addImage(token, restaurant!!.id, imagePart)
-              call.enqueue(object : Callback<ImageRest> {
-                  override fun onResponse(call: Call<ImageRest>, response: Response<ImageRest>) {
-                      Toast.makeText(this@RestaurantesActivity, "Imagem Submetida", Toast.LENGTH_LONG).show()
-                  }
+                val call =
+                    RetrofitInitializer().imageService().addImage(token, restaurant!!.id, imagePart)
+                call.enqueue(object : Callback<ImageRest> {
+                    override fun onResponse(call: Call<ImageRest>, response: Response<ImageRest>) {
+                        Toast.makeText(
+                            this@RestaurantesActivity, "Imagem Submetida", Toast.LENGTH_LONG
+                        ).show()
+                    }
 
-                  override fun onFailure(call: Call<ImageRest>, t: Throwable) {
-                      Toast.makeText(this@RestaurantesActivity, "Houve um erro a submeter a Imagem", Toast.LENGTH_LONG).show()
-                  }
-              })
+                    override fun onFailure(call: Call<ImageRest>, t: Throwable) {
+                        Toast.makeText(
+                            this@RestaurantesActivity,
+                            "Houve um erro a submeter a Imagem",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                })
             }
         })
     }
@@ -169,6 +174,9 @@ class RestaurantesActivity() : AppCompatActivity() {
     }
 
     private fun processRestaurant() {
+        
+        var i = 0
+
         val txtNome = findViewById<TextView>(R.id.txtNome)
         val txtDesc = findViewById<TextView>(R.id.txtDesc)
         val txtLocal = findViewById<TextView>(R.id.txtLocal)
@@ -178,7 +186,82 @@ class RestaurantesActivity() : AppCompatActivity() {
         val imageview = findViewById<ImageView>(R.id.imageView)
 
 
-        //txtNome.text = restaurant?.images?.get(0)?.path
+        val btnDir = findViewById<TextView>(R.id.btnDir)
+        val btnEsq = findViewById<TextView>(R.id.btnEsq)
+
+        // tamanho do array que contém as imagens do restaurante
+        var tam = restaurant?.images?.size
+
+        // descontar 1 ao tamanho do array por ser [0,1,2,3,...]
+        if (tam != null) {
+            tam = tam - 1
+        }
+
+        // se o i for menor que tamanho do array das imagens então incrementa
+        // senão volta ao indice 0
+        btnDir.setOnClickListener(View.OnClickListener {
+            if (i < tam!!) {
+                i++
+
+                //constrói a string para carregar a foto
+                val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
+                val b = restaurant?.images?.get(i)?.path
+                val sb = StringBuilder()
+                sb.append(a).append(b)
+                val c = sb.toString()
+
+                // carrega a foto atrés do URL
+                Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+            } else {
+                i = 0
+
+                //constrói a string para carregar a foto
+                val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
+                val b = restaurant?.images?.get(i)?.path
+                val sb = StringBuilder()
+                sb.append(a).append(b)
+                val c = sb.toString()
+
+                // carrega a foto atrés do URL
+                Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+            }
+        })
+
+        // se o i for diferente de 0 decrementa
+        // senão volta ao indice 1 e apresenta a primeira imagem de indice 0
+        btnEsq.setOnClickListener(View.OnClickListener {
+            if (!(i == 0)) {
+                i--
+
+                //constrói a string para carregar a foto
+                val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
+                val b = restaurant?.images?.get(i)?.path
+                println(b)
+                val sb = StringBuilder()
+                sb.append(a).append(b)
+                val c = sb.toString()
+
+                // carrega a foto atrés do URL
+                Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+
+            } else {
+                if (tam != null) {
+                    i = tam + 1
+
+                    //constrói a string para carregar a foto
+                    val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
+                    val b = restaurant?.images?.get(tam)?.path
+                    val sb = StringBuilder()
+                    sb.append(a).append(b)
+                    val c = sb.toString()
+
+                    // carrega a foto atrés do URL
+                    Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+                }
+            }
+        })
+
+        //txtNome.text = restaurant?.images?.get(1)?.path
 
         // define um valor à TextView
         txtNome.text = restaurant?.name
@@ -190,7 +273,8 @@ class RestaurantesActivity() : AppCompatActivity() {
 
 
         val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
-        val b = restaurant?.images?.get(0)?.path
+        val b = restaurant?.images?.get(i)?.path
+        println(b)
 
         val sb = StringBuilder()
         sb.append(a).append(b)
