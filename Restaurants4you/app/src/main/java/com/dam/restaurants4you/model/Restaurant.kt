@@ -31,9 +31,6 @@ data class Restaurant(
     @SerializedName("longitude")
     val longitude: String,
 
-    @SerializedName("plates")
-    val plates: Array<Plate>?,
-
     @SerializedName("images")
     val images: Array<ImageRest>?
 )
