@@ -82,7 +82,7 @@
                 android:inputType="numberDecimal" />
 
             <Button
-                android:id="@+id/btnGere"
+                android:id="@+id/btnAdd"
                 style="@style/btn"
                 android:text="@string/adicionar" />
 

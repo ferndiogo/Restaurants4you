@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Restaurant(
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
 
     @SerializedName("name")
     val name: String,
@@ -32,8 +32,8 @@ data class Restaurant(
     val longitude:Double,
 
     @SerializedName("plates")
-    val plates: Array<Plate>,
+    val plates: Array<Plate>?,
 
     @SerializedName("images")
-    val images: Array<ImageRest>
+    val images: Array<ImageRest>?
 )

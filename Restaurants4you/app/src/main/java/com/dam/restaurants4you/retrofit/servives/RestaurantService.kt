@@ -24,7 +24,14 @@ interface RestaurantService {
     @POST("api/Restaurants")
     fun addRestaurant(
         @Header("Authorization") token:String,
-        @Part("rt") rt: Restaurant
+        @Part("name") name: String,
+        @Part("description") descricao: String,
+        @Part("localization") localizacao: String,
+        @Part("contact") contacto: String,
+        @Part("email") email: String,
+        @Part("time") horario: String,
+        @Part("latitude") latitude : Double,
+        @Part("longitude") longitude : Double
     ): Call<Restaurant>
 
     @Multipart

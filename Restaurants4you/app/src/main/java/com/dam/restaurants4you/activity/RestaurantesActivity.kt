@@ -38,6 +38,8 @@ class RestaurantesActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.janela_detalhes)
 
+
+
         val id = intent.getIntExtra("id", -1)
         val token = intent.getStringExtra("token")
 
@@ -101,8 +103,11 @@ class RestaurantesActivity() : AppCompatActivity() {
                 val imagePart = MultipartBody.Part.createFormData("imagem", file.name, requestFile)
 
                 val call =
-                    RetrofitInitializer().imageService().addImage(token, restaurant!!.id, imagePart)
-                call.enqueue(object : Callback<ImageRest> {
+                    restaurant!!.id?.let { it1 ->
+                        RetrofitInitializer().imageService().addImage(token,
+                            it1, imagePart)
+                    }
+                call?.enqueue(object : Callback<ImageRest> {
                     override fun onResponse(call: Call<ImageRest>, response: Response<ImageRest>) {
                         Toast.makeText(
                             this@RestaurantesActivity, "Imagem Submetida", Toast.LENGTH_LONG
