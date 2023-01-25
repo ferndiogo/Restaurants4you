@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -82,9 +83,11 @@ class LoginActivity : AppCompatActivity() {
                         "Token inválido ou erro no servidor",
                         Toast.LENGTH_LONG
                     )
-                    // reecaminha para outra activity, neste caso para o Login activity
-                    val it = Intent(this@LoginActivity, LoginActivity::class.java)
-                    startActivity(it)
+                    // coloca os valores vazios nos campos de username e password
+                    val username = findViewById<EditText>(R.id.userRegisto)
+                    val pass = findViewById<EditText>(R.id.passwordRegisto)
+                    username.setText("")
+                    pass.setText("")
                 }
 
             })
