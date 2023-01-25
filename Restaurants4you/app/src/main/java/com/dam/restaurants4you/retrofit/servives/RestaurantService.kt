@@ -49,6 +49,10 @@ interface RestaurantService {
         @Part("id") id: Int
     ):Call<Void>
 
-
+    @GET("api/Restaurants/User/{id}")
+    fun listRestaurantsUser(
+        @Header("Authorization") token:String,
+        @Path("id") idUser: Int
+    ): Call<List<Restaurant>>
 
 }
