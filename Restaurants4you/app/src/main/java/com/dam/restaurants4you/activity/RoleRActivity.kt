@@ -1,6 +1,7 @@
 package com.dam.restaurants4you.activity
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -50,7 +51,7 @@ class RoleRActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.logOut -> {
-                Toast.makeText(this@RoleRActivity, "Logout com sucesso!", Toast.LENGTH_LONG).show()
+                logout()
                 return true
             }
             R.id.info -> {
@@ -61,5 +62,19 @@ class RoleRActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun logout(){
+        val sharedPref: SharedPreferences = this@RoleRActivity.getSharedPreferences(
+            R.string.Name_File_Token.toString(),
+            MODE_PRIVATE
+        )
+        val edit: SharedPreferences.Editor = sharedPref.edit()
+        edit.putString("token", "")
+        edit.apply()
+        edit.commit()
+        val inte = Intent(this@RoleRActivity,LoginActivity::class.java)
+        startActivity(inte)
+        Toast.makeText(this@RoleRActivity, "Logout com sucesso!", Toast.LENGTH_LONG).show()
     }
 }

@@ -96,7 +96,7 @@ class MapaActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.logOut -> {
-                Toast.makeText(this@MapaActivity, "Logout com sucesso!", Toast.LENGTH_LONG).show()
+                logout()
                 return true
             }
             R.id.info -> {
@@ -107,6 +107,20 @@ class MapaActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun logout(){
+        val sharedPref: SharedPreferences = this.getSharedPreferences(
+            R.string.Name_File_Token.toString(),
+            MODE_PRIVATE
+        )
+        val edit: SharedPreferences.Editor = sharedPref.edit()
+        edit.putString("token", "")
+        edit.apply()
+        edit.commit()
+        val inte = Intent(this,LoginActivity::class.java)
+        startActivity(inte)
+        Toast.makeText(this, "Logout com sucesso!", Toast.LENGTH_LONG).show()
     }
 
     /**
