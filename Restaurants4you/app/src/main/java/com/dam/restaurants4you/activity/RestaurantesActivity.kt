@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -181,7 +182,6 @@ class RestaurantesActivity() : AppCompatActivity() {
 
         var i = 0
 
-        val txtNome = findViewById<TextView>(R.id.txtNome)
         val txtDesc = findViewById<TextView>(R.id.txtDesc)
         val txtLocal = findViewById<TextView>(R.id.txtLocal)
         val txtContacto = findViewById<TextView>(R.id.txtContacto)
@@ -190,8 +190,8 @@ class RestaurantesActivity() : AppCompatActivity() {
         val imageview = findViewById<ImageView>(R.id.imageView)
 
 
-        val btnDir = findViewById<TextView>(R.id.btnDir)
-        val btnEsq = findViewById<TextView>(R.id.btnEsq)
+        val btnDir = findViewById<ImageButton>(R.id.btnDir)
+        val btnEsq = findViewById<ImageButton>(R.id.btnEsq)
 
         // tamanho do array que contém as imagens do restaurante
         var tam = restaurant?.images?.size
@@ -268,7 +268,6 @@ class RestaurantesActivity() : AppCompatActivity() {
         //txtNome.text = restaurant?.images?.get(1)?.path
 
         // define um valor à TextView
-        txtNome.text = restaurant?.name
         txtDesc.text = restaurant?.description
         txtLocal.text = restaurant?.localization
         txtContacto.text = restaurant?.contact

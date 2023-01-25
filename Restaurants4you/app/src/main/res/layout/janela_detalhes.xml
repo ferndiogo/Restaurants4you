@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/fundo">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,39 +17,35 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/txtNome"
-                style="@style/txtView" />
-
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:adjustViewBounds="true" />
+                android:adjustViewBounds="true"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/imagem" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_marginTop="15dp">
+                android:orientation="horizontal">
 
-                <Button
+                <ImageButton
                     android:id="@+id/btnEsq"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/esq"
-                    android:text="." />
+                    style="@style/imageBtn"
+                    android:contentDescription="@string/esquerda"
+                    app:srcCompat="@drawable/esq" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/btnDir"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/dir"
-                    android:text="." />
+                    app:srcCompat="@drawable/dir"
+                    style="@style/imageBtn"
+                    android:contentDescription="@string/direita"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -58,31 +55,56 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/txtViewT"
+                    android:text="@string/descri_o"/>
+
+                <TextView
                     android:id="@+id/txtDesc"
-                    style="@style/txtView" />
+                    style="@style/txtViewD" />
+
+                <TextView
+                    style="@style/txtViewT"
+                    android:text="@string/local"/>
 
                 <TextView
                     android:id="@+id/txtLocal"
-                    style="@style/txtView" />
+                    style="@style/txtViewD" />
+
+                <TextView
+                    style="@style/txtViewT"
+                    android:text="@string/contacto"/>
 
                 <TextView
                     android:id="@+id/txtContacto"
-                    style="@style/txtView" />
+                    style="@style/txtViewD" />
+
+                <TextView
+                    android:text="@string/email"
+                    style="@style/txtViewT" />
 
                 <TextView
                     android:id="@+id/txtEmail"
-                    style="@style/txtView" />
+                    style="@style/txtViewD" />
+
+                <TextView
+                    style="@style/txtViewT"
+                    android:text="@string/hor_rio"/>
 
                 <TextView
                     android:id="@+id/txtHorario"
-                    style="@style/txtView" />
+                    style="@style/txtViewD" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+
+                <TextView
+                    style="@style/txtViewT"
+                    android:text="@string/adicionar_imagem"/>
 
                 <Button
                     android:id="@+id/btnUpload"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginRight="80dp"
+                    style="@style/btn"
                     android:text="@string/selecionar_imagem" />
 
                 <ImageView
@@ -91,19 +113,18 @@
                     android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/imagem" />
 
                 <TextView
                     android:id="@+id/txtImgSelec"
-                    style="@style/txtView"
-                    android:text="@string/nenhuma_imagem_selecionada" />
+                    style="@style/txtViewT"
+                    android:text="@string/nenhuma_imagem_selecionada"
+                    android:textAlignment="center" />
 
                 <Button
                     android:id="@+id/btnSub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginRight="80dp"
+                    style="@style/btn"
                     android:text="@string/submeter" />
 
                 <Space
