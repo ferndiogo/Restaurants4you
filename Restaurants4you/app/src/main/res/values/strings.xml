@@ -36,4 +36,9 @@
     <string name="submeter">Submeter</string>
     <string name="logout">Logout</string>
     <string name="sobre">Sobre</string>
+    <string name="imagem">Imagem</string>
+    <string name="direita">Direita</string>
+    <string name="esquerda">Esquerda</string>
+    <string name="local">Local</string>
+    <string name="adicionar_imagem">Adicionar Imagem</string>
 </resources>
