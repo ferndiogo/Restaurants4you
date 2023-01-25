@@ -32,4 +32,9 @@ interface UserService {
     fun getRoles(
         @Header("Authorization") token: String
     ): Call<String>
+
+    @GET
+    fun getId(
+        @Header("Authorization") token: String,
+    ): Call<String>
 }
