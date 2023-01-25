@@ -26,10 +26,10 @@ data class Restaurant(
     val Time: String,
 
     @SerializedName("latitude")
-    val latitude: Double,
+    val latitude: String,
 
     @SerializedName("longitude")
-    val longitude:Double,
+    val longitude: String,
 
     @SerializedName("plates")
     val plates: Array<Plate>?,
