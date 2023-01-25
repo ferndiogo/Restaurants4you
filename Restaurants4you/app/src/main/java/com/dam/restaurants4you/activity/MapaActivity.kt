@@ -128,7 +128,9 @@ class MapaActivity : AppCompatActivity() {
      */
     private fun addAllMarkers() {
         for (rt: Restaurant in list!!) {
-            criarMarcador(rt.latitude, rt.longitude, rt.name, rt, token)
+            var lat = rt.latitude.substring(1,rt.latitude.length - 1).toDouble()
+            var lon = rt.latitude.substring(1,rt.longitude.length - 1).toDouble()
+            criarMarcador(lat, lon, rt.name, rt, token)
         }
     }
 
