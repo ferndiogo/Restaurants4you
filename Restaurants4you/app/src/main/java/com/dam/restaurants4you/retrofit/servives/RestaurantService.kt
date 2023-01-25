@@ -1,7 +1,6 @@
 package com.dam.restaurants4you.retrofit.servives
 
 import com.dam.restaurants4you.model.Restaurant
-import com.google.gson.annotations.JsonAdapter
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -30,8 +29,8 @@ interface RestaurantService {
         @Part("contact") contacto: String,
         @Part("email") email: String,
         @Part("time") horario: String,
-        @Part("latitude") latitude : Double,
-        @Part("longitude") longitude : Double
+        @Part("latitude") latitude: String,
+        @Part("longitude") longitude: String,
     ): Call<Restaurant>
 
     @Multipart

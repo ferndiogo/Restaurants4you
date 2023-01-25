@@ -47,20 +47,15 @@ class FragAddRest : Fragment() {
         val contacto = txtContacto.text.toString()
         val email = txtEmail.text.toString()
         val horario = txtHorario.text.toString()
-        val latitude: Double = txtLat.getText().toString().toDouble()
-        val longitude: Double = txtLong.getText().toString().toDouble()
+        val latitude = txtLat.text.toString()
+        val longitude = txtLong.text.toString()
 
 
-        val call = RetrofitInitializer().restaurantService().addRestaurant(loadToken(), titulo, descricao, morada, contacto, email, horario, latitude, longitude)
+        val call = RetrofitInitializer().restaurantService().addRestaurant(loadToken(), titulo, descricao, morada,
+            contacto, email, horario, latitude, longitude)
 
         call.enqueue(object : Callback<Restaurant> {
             override fun onResponse(call: Call<Restaurant>, response: Response<Restaurant>) {
-                println("xxxxxxxxxxxxxxxxxxxxxx")
-                println("xxxxxxxxxxxxxxxxxxxxxx")
-                println("xxxxxxxxxxxxxxxxxxxxxx")
-                println("xxxxxxxxxxxxxxxxxxxxxx")
-                println("xxxxxxxxxxxxxxxxxxxxxx")
-                println("xxxxxxxxxxxxxxxxxxxxxx")
             }
 
             override fun onFailure(call: Call<Restaurant>, t: Throwable) {
