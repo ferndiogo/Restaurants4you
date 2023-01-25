@@ -32,7 +32,6 @@ class RestaurantesActivity() : AppCompatActivity() {
     private var restaurant: Restaurant? = null
     private val options = arrayOf<CharSequence>("Câmara ", "Galeria", "Cancelar")
     private lateinit var file: File
-
     private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -174,7 +173,7 @@ class RestaurantesActivity() : AppCompatActivity() {
     }
 
     private fun processRestaurant() {
-        
+
         var i = 0
 
         val txtNome = findViewById<TextView>(R.id.txtNome)

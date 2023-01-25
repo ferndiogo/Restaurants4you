@@ -1,17 +1,12 @@
 package com.dam.restaurants4you.activity
 
-import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.model.Restaurant
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
@@ -26,8 +21,6 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.properties.Delegates
-
 
 class MapaActivity : AppCompatActivity() {
 
@@ -35,30 +28,35 @@ class MapaActivity : AppCompatActivity() {
     private var token: String? = null
     private var list: List<Restaurant>? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mapa)
 
+        // coloca a action bar visível
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        // lê o token guardado no dispositivo
         token = loadToken()
 
+        // referência para o mapa
         map = findViewById(R.id.mapa)
 
+        // faz uma chamada (POST) à API com o token para obter todos os restaurantes
         val call = RetrofitInitializer().restaurantService().listRestaurants(token!!)
         call.enqueue(object : Callback<List<Restaurant>> {
             override fun onResponse(
                 call: Call<List<Restaurant>>, response: Response<List<Restaurant>>
             ) {
                 response.body().let {
+                    // guarda todos os restaurantes nma lista
                     list = it as List<Restaurant>
                 }
+                // chama a função que mostra o mapa
                 showMap()
+                // chama a função que irá criar os marcadores no mapa
                 addAllMarkers()
+                // chama a função para obter a localização real do dispositivo
                 getLocation()
-                //list?.get(0)?.let { println(it.id)
-
             }
 
             override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
@@ -67,6 +65,7 @@ class MapaActivity : AppCompatActivity() {
                     "Token inválido ou erro no servidor",
                     Toast.LENGTH_LONG
                 )
+                // reecaminha para outra activity, neste caso para o Login activity
                 val it = Intent(this@MapaActivity, LoginActivity::class.java)
                 startActivity(it)
             }
@@ -75,16 +74,25 @@ class MapaActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * função para permitir que seja possível voltar atrás na activity
+     */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
 
+    /**
+     * função para mostrar a action bar personalizada
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.custom_menu, menu)
         return true
     }
 
+    /**
+     * função para atribuir funções ao clicar nos diferentes item da action bar
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.logOut -> {
@@ -92,6 +100,7 @@ class MapaActivity : AppCompatActivity() {
                 return true
             }
             R.id.info -> {
+                // reecaminha para outra activity, neste caso para o Sobre activity
                 val it = Intent(this@MapaActivity, SobreActivity::class.java)
                 startActivity(it)
                 return true
@@ -100,12 +109,18 @@ class MapaActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * função que irá chamar outra função para criar os marcadores no mapa
+     */
     private fun addAllMarkers() {
         for (rt: Restaurant in list!!) {
             criarMarcador(rt.latitude, rt.longitude, rt.name, rt, token)
         }
     }
 
+    /**
+     * função para tornar o mapa visível
+     */
     private fun showMap() {
         // define apenas um mapa em ºtodo o programa
         Configuration.getInstance().setUserAgentValue(this.getPackageName())
@@ -113,16 +128,12 @@ class MapaActivity : AppCompatActivity() {
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.controller.zoomTo(17.0)
         map.zoomController.setVisibility(CustomZoomButtonsController.Visibility.ALWAYS)
-        map.setMultiTouchControls(true) // para poder fazer zoom com os dedos
+        // capacidade para ser possível fazer zoom com os dedos
+        map.setMultiTouchControls(true)
 
         var compassOverlay = CompassOverlay(this, map)
         compassOverlay.enableCompass()
         map.overlays.add(compassOverlay)
-
-
-        //chama a função que cria o marcador
-        //criarMarcador(39.60068, -8.38967, "IPT", )
-
 
     }
 
@@ -174,6 +185,9 @@ class MapaActivity : AppCompatActivity() {
         map.getOverlays().add(myLocationoverlay)
     }
 
+    /**
+     * função que irá ler o token guardado em memória
+     */
     private fun loadToken(): String {
         val sharedPreferences: SharedPreferences = getSharedPreferences(
             R.string.Name_File_Token.toString(),

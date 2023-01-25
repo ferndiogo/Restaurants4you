@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -30,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
+        //coleta as permissões do utilizador
         requestPermissionsIfNecessary(
             arrayOf(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -43,9 +43,12 @@ class LoginActivity : AppCompatActivity() {
             )
         )
 
-
+        //lê o token guardado no dispositivo
         token = loadToken()
 
+        // caso exista um token guardado em memória é deita uma chamada à API (GET) para obter a
+        // role do utilizador, caso seja "Restaurant" é encaminhado para uma activity, se for "User"
+        // para outra, ou gera uma mensagem de erro
         if (!(token.isNullOrBlank())) {
 
             val call = RetrofitInitializer().userService().getRoles(token)
@@ -79,6 +82,7 @@ class LoginActivity : AppCompatActivity() {
                         "Token inválido ou erro no servidor",
                         Toast.LENGTH_LONG
                     )
+                    // reecaminha para outra activity, neste caso para o Login activity
                     val it = Intent(this@LoginActivity, LoginActivity::class.java)
                     startActivity(it)
                 }
@@ -86,29 +90,43 @@ class LoginActivity : AppCompatActivity() {
             })
         }
 
-
+        // referência para o botão de registo
         val btnRegisto = findViewById<Button>(R.id.btnRegistar)
+
+        // atribui uma função ao botão
         btnRegisto.setOnClickListener(View.OnClickListener {
+            // reecaminha para outra activity, neste caso para o Registo activity
             val it = Intent(this@LoginActivity, RegistoActivity::class.java)
             startActivity(it)
         })
 
+        // referência para o botão de login
         val btnLogin = findViewById<Button>(R.id.btnLogin)
+
+        // atribui uma função ao botão
         btnLogin.setOnClickListener(View.OnClickListener {
+            // chama a função para realizar o login
             login()
         })
 
 
     }
 
+    /**
+     * função para mostrar a action bar personalizada
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.custom_menu1, menu)
         return true
     }
 
+    /**
+     * função para atribuir funções ao clicar nos diferentes item da action bar
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.info -> {
+                // reecaminha para outra activity, neste caso para o Sobre activity
                 val it = Intent(this@LoginActivity, SobreActivity::class.java)
                 startActivity(it)
                 return true
@@ -117,14 +135,22 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * função para realizar login
+     */
     fun login() {
+
+        // variáveis para obter o valor do username e password escritos pelo usuário
         val username: String = findViewById<EditText>(R.id.userRegisto).text.toString()
         val pass: String = findViewById<EditText>(R.id.passwordRegisto).text.toString()
 
+        // chamada à API (POST) para obter realizar o login obtendo o token
         val call = RetrofitInitializer().userService().login(username, pass)
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                // caso ocorra o erro 400 é criado um toast com a informação desse mesmo erro
                 if (response.code() == 400) {
                     response.errorBody().let {
                         val aux = it?.string()
@@ -133,6 +159,7 @@ class LoginActivity : AppCompatActivity() {
                             aux,
                             Toast.LENGTH_LONG
                         ).show()
+                        // coloca as EditText vazias
                         findViewById<EditText>(R.id.userRegisto).setText("")
                         findViewById<EditText>(R.id.passwordRegisto).setText("")
 
@@ -140,9 +167,12 @@ class LoginActivity : AppCompatActivity() {
                 } else {
                     response.body().let {
                         var token: String = it as String
+                        // adiciona antes do token "bearer" para posteriormente ser guardado
                         token = "bearer $token"
+                        // guarda o token no dispositivo para utilizações futuras
                         saveToken(token)
 
+                        // chamada à API (GET) para obter o role do utilizador
                         val call = RetrofitInitializer().userService().getRoles(token)
                         println("Iam Here")
                         call.enqueue(object : Callback<String> {
@@ -150,7 +180,11 @@ class LoginActivity : AppCompatActivity() {
                                 call: Call<String>, response: Response<String>
                             ) {
                                 response.body().let {
+                                    // guarda a role
                                     var role: String = it as String
+
+                                    // caso seja "Restaurant" é encaminhado para uma activity, se for
+                                    // "User" para outra, ou gera uma mensagem de erro
                                     if (role == "Restaurant") {
                                         val it = Intent(this@LoginActivity, RoleRActivity::class.java)
                                         startActivity(it)
@@ -174,6 +208,7 @@ class LoginActivity : AppCompatActivity() {
                                     "Token inválido ou erro no servidor",
                                     Toast.LENGTH_LONG
                                 )
+                                // reecaminha para outra activity, neste caso para o Login activity
                                 val it = Intent(this@LoginActivity, LoginActivity::class.java)
                                 startActivity(it)
                             }
@@ -217,6 +252,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * função que irá ler o token guardado em memória
+     */
     private fun loadToken(): String {
         val sharedPreferences: SharedPreferences = getSharedPreferences(
             R.string.Name_File_Token.toString(),
@@ -225,6 +263,9 @@ class LoginActivity : AppCompatActivity() {
         return sharedPreferences.getString("token", "").toString()
     }
 
+    /**
+     * função que irá guardar o token no dispositivo
+     */
     fun saveToken(token: String) {
         val sharedPref: SharedPreferences = this@LoginActivity.getSharedPreferences(
             R.string.Name_File_Token.toString(),

@@ -1,7 +1,6 @@
 package com.dam.restaurants4you.activity
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,11 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.fragmentos.Fragmentos
-import com.dam.restaurants4you.model.Restaurant
-import com.dam.restaurants4you.retrofit.RetrofitInitializer
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RoleRActivity : AppCompatActivity() {
 
@@ -23,26 +17,36 @@ class RoleRActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.role_restaurant)
 
+        // referência para o botão ddo mapa
         val btnMapa = findViewById<Button>(R.id.btnMapa)
-
+        // atribui uma função ao botão
         btnMapa.setOnClickListener(View.OnClickListener {
+            // reecaminha para outra activity, neste caso para o Mapa activity
             val it = Intent(this, MapaActivity::class.java)
             startActivity(it)
         })
 
+        // referência para o botão ddo mapa
         val btnFrags = findViewById<Button>(R.id.btnGere)
-
+        // atribui uma função ao botão
         btnFrags.setOnClickListener(View.OnClickListener {
+            // reecaminha para outra activity, neste caso para o Fragmentos activity que terá outras informações
             val it = Intent(this, Fragmentos::class.java)
             startActivity(it)
         })
     }
 
+    /**
+     * função para mostrar a action bar personalizada
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.custom_menu, menu)
         return true
     }
 
+    /**
+     * função para atribuir funções ao clicar nos diferentes item da action bar
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.logOut -> {
@@ -50,6 +54,7 @@ class RoleRActivity : AppCompatActivity() {
                 return true
             }
             R.id.info -> {
+                // reecaminha para outra activity, neste caso para o Sobre activity
                 val it = Intent(this@RoleRActivity, SobreActivity::class.java)
                 startActivity(it)
                 return true
@@ -57,6 +62,4 @@ class RoleRActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-
 }

@@ -10,9 +10,13 @@ class SobreActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sobre_info)
 
+        // coloca a action bar visível
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * função para permitir que seja possível voltar atrás na activity
+     */
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
