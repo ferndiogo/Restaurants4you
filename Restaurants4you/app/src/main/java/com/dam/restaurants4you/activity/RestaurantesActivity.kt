@@ -40,7 +40,6 @@ class RestaurantesActivity() : AppCompatActivity() {
         setContentView(R.layout.janela_detalhes)
 
 
-
         val id = intent.getIntExtra("id", -1)
         val token = intent.getStringExtra("token")
 
@@ -105,8 +104,10 @@ class RestaurantesActivity() : AppCompatActivity() {
 
                 val call =
                     restaurant!!.id?.let { it1 ->
-                        RetrofitInitializer().imageService().addImage(token,
-                            it1, imagePart)
+                        RetrofitInitializer().imageService().addImage(
+                            token,
+                            it1, imagePart
+                        )
                     }
                 call?.enqueue(object : Callback<ImageRest> {
                     override fun onResponse(call: Call<ImageRest>, response: Response<ImageRest>) {
@@ -276,16 +277,17 @@ class RestaurantesActivity() : AppCompatActivity() {
 
 
         val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
-        val b = restaurant?.images?.get(i)?.path
-        println(b)
+        if (restaurant?.images?.size != 0) {
+            val b = restaurant?.images?.get(i)?.path
 
-        val sb = StringBuilder()
-        sb.append(a).append(b)
-        val c = sb.toString()
+            val sb = StringBuilder()
+            sb.append(a).append(b)
+            val c = sb.toString()
 
-        println(c)
+            println(c)
 
-        Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+            Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+        }
 
         //actionbar
         val actionbar = supportActionBar

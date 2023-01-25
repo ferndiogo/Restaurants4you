@@ -41,6 +41,10 @@ class MapaActivity : AppCompatActivity() {
         // referência para o mapa
         map = findViewById(R.id.mapa)
 
+        callAPIRestaurants()
+    }
+
+    fun callAPIRestaurants() {
         // faz uma chamada (POST) à API com o token para obter todos os restaurantes
         val call = RetrofitInitializer().restaurantService().listRestaurants(token!!)
         call.enqueue(object : Callback<List<Restaurant>> {
@@ -50,13 +54,13 @@ class MapaActivity : AppCompatActivity() {
                 response.body().let {
                     // guarda todos os restaurantes nma lista
                     list = it as List<Restaurant>
+                    // chama a função que mostra o mapa
+                    showMap()
+                    // chama a função que irá criar os marcadores no mapa
+                    addAllMarkers()
+                    // chama a função para obter a localização real do dispositivo
+                    getLocation()
                 }
-                // chama a função que mostra o mapa
-                showMap()
-                // chama a função que irá criar os marcadores no mapa
-                addAllMarkers()
-                // chama a função para obter a localização real do dispositivo
-                getLocation()
             }
 
             override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
@@ -69,9 +73,7 @@ class MapaActivity : AppCompatActivity() {
                 val it = Intent(this@MapaActivity, LoginActivity::class.java)
                 startActivity(it)
             }
-
         })
-
     }
 
     /**
@@ -94,7 +96,7 @@ class MapaActivity : AppCompatActivity() {
      * função para atribuir funções ao clicar nos diferentes item da action bar
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
+        return when (item.itemId) {
             R.id.logOut -> {
                 logout()
                 return true
@@ -109,7 +111,7 @@ class MapaActivity : AppCompatActivity() {
         }
     }
 
-    private fun logout(){
+    private fun logout() {
         val sharedPref: SharedPreferences = this.getSharedPreferences(
             R.string.Name_File_Token.toString(),
             MODE_PRIVATE
@@ -118,7 +120,7 @@ class MapaActivity : AppCompatActivity() {
         edit.putString("token", "")
         edit.apply()
         edit.commit()
-        val inte = Intent(this,LoginActivity::class.java)
+        val inte = Intent(this, LoginActivity::class.java)
         startActivity(inte)
         Toast.makeText(this, "Logout com sucesso!", Toast.LENGTH_LONG).show()
     }
@@ -128,8 +130,8 @@ class MapaActivity : AppCompatActivity() {
      */
     private fun addAllMarkers() {
         for (rt: Restaurant in list!!) {
-            var lat = rt.latitude.substring(1,rt.latitude.length - 1).toDouble()
-            var lon = rt.latitude.substring(1,rt.longitude.length - 1).toDouble()
+            val lat: Double = rt.latitude.substring(1, rt.latitude.length - 1).toDouble()
+            val lon: Double = rt.longitude.substring(1, rt.longitude.length - 1).toDouble()
             criarMarcador(lat, lon, rt.name, rt, token)
         }
     }
@@ -168,7 +170,7 @@ class MapaActivity : AppCompatActivity() {
      */
     private fun criarMarcador(
         latitude: Double,
-        logintude: Double,
+        longitude: Double,
         local: String,
         rt: Restaurant,
         token: String?
@@ -176,7 +178,7 @@ class MapaActivity : AppCompatActivity() {
 
         // define um ponto no mapa
         // Instituto Politécnico de Tomar
-        var point = GeoPoint(latitude, logintude)
+        var point = GeoPoint(latitude, longitude)
         // define um marcador num ponto
         var startMarker = Marker(map)
         startMarker.setIcon(getResources().getDrawable(R.drawable.marcador));
@@ -211,9 +213,6 @@ class MapaActivity : AppCompatActivity() {
         )
         return sharedPreferences.getString("token", "").toString()
     }
-
-
-
 
 
 }
