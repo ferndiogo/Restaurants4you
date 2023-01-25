@@ -1,6 +1,7 @@
 package com.dam.restaurants4you.retrofit.servives
 
 import com.dam.restaurants4you.model.Restaurant
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -23,14 +24,14 @@ interface RestaurantService {
     @POST("api/Restaurants")
     fun addRestaurant(
         @Header("Authorization") token:String,
-        @Part("name") name: String,
-        @Part("description") descricao: String,
-        @Part("localization") localizacao: String,
-        @Part("contact") contacto: String,
-        @Part("email") email: String,
-        @Part("time") horario: String,
-        @Part("latitude") latitude: String,
-        @Part("longitude") longitude: String,
+        @Part("name") name: RequestBody,
+        @Part("description") descricao: RequestBody,
+        @Part("localization") localizacao: RequestBody,
+        @Part("contact") contacto: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("time") horario: RequestBody,
+        @Part("latitude") latitude: RequestBody,
+        @Part("longitude") longitude: RequestBody,
     ): Call<Restaurant>
 
     @Multipart

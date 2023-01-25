@@ -130,8 +130,8 @@ class MapaActivity : AppCompatActivity() {
      */
     private fun addAllMarkers() {
         for (rt: Restaurant in list!!) {
-            val lat: Double = rt.latitude.substring(1, rt.latitude.length - 1).toDouble()
-            val lon: Double = rt.longitude.substring(1, rt.longitude.length - 1).toDouble()
+            val lat: Double = rt.latitude.toDouble()
+            val lon: Double = rt.longitude.toDouble()
             criarMarcador(lat, lon, rt.name, rt, token)
         }
     }

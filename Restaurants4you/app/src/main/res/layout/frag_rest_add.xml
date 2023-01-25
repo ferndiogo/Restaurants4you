@@ -72,14 +72,14 @@
                 style="@style/edittext"
                 android:autofillHints=""
                 android:hint="@string/latitude"
-                android:inputType="numberDecimal" />
+                android:inputType="numberSigned" />
 
             <EditText
                 android:id="@+id/txtLong"
                 style="@style/edittext"
                 android:autofillHints=""
                 android:hint="@string/longitude"
-                android:inputType="numberDecimal" />
+                android:inputType="numberSigned" />
 
             <Button
                 android:id="@+id/btnAdd"

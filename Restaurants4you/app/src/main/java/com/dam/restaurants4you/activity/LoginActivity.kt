@@ -10,13 +10,14 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -71,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
                                 this@LoginActivity,
                                 "Ocorreu um erro a verificar o tipo de utilizador",
                                 Toast.LENGTH_LONG
-                            )
+                            ).show()
                         }
                     }
 
@@ -82,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
                         this@LoginActivity,
                         "Token inválido ou erro no servidor",
                         Toast.LENGTH_LONG
-                    )
+                    ).show()
                     // coloca os valores vazios nos campos de username e password
                     val username = findViewById<EditText>(R.id.userRegisto)
                     val pass = findViewById<EditText>(R.id.passwordRegisto)
@@ -147,8 +148,14 @@ class LoginActivity : AppCompatActivity() {
         val username: String = findViewById<EditText>(R.id.userRegisto).text.toString()
         val pass: String = findViewById<EditText>(R.id.passwordRegisto).text.toString()
 
+        val user: RequestBody =
+            RequestBody.create(MediaType.parse("text/plain"), username)
+
+        val password: RequestBody =
+            RequestBody.create(MediaType.parse("text/plain"), pass)
+
         // chamada à API (POST) para obter realizar o login obtendo o token
-        val call = RetrofitInitializer().userService().login(username, pass)
+        val call = RetrofitInitializer().userService().login(user, password)
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
@@ -177,7 +184,7 @@ class LoginActivity : AppCompatActivity() {
 
                         // chamada à API (GET) para obter o role do utilizador
                         val call = RetrofitInitializer().userService().getRoles(token)
-                        println("Iam Here")
+
                         call.enqueue(object : Callback<String> {
                             override fun onResponse(
                                 call: Call<String>, response: Response<String>
@@ -189,10 +196,12 @@ class LoginActivity : AppCompatActivity() {
                                     // caso seja "Restaurant" é encaminhado para uma activity, se for
                                     // "User" para outra, ou gera uma mensagem de erro
                                     if (role == "Restaurant") {
-                                        val it = Intent(this@LoginActivity, RoleRActivity::class.java)
+                                        val it =
+                                            Intent(this@LoginActivity, RoleRActivity::class.java)
                                         startActivity(it)
                                     } else if (role == "User") {
-                                        val it = Intent(this@LoginActivity, MapaActivity::class.java)
+                                        val it =
+                                            Intent(this@LoginActivity, MapaActivity::class.java)
                                         startActivity(it)
                                     } else {
                                         Toast.makeText(
@@ -210,7 +219,7 @@ class LoginActivity : AppCompatActivity() {
                                     this@LoginActivity,
                                     "Token inválido ou erro no servidor",
                                     Toast.LENGTH_LONG
-                                )
+                                ).show()
                                 // reecaminha para outra activity, neste caso para o Login activity
                                 val it = Intent(this@LoginActivity, LoginActivity::class.java)
                                 startActivity(it)
@@ -226,7 +235,7 @@ class LoginActivity : AppCompatActivity() {
                     this@LoginActivity,
                     R.string.ErrorServer,
                     Toast.LENGTH_LONG
-                )
+                ).show()
             }
 
         })

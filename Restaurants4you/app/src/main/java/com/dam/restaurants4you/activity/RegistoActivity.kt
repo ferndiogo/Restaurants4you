@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.model.User
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -78,10 +80,16 @@ class RegistoActivity : AppCompatActivity() {
         // confirma se as passwords são iguais
         if (txtPass == txtConfPass) {
 
+            val user: RequestBody =
+                RequestBody.create(MediaType.parse("text/plain"), txtUser)
+
+            val password: RequestBody =
+                RequestBody.create(MediaType.parse("text/plain"), txtPass)
+
             // chamada à API (POST) para registar o utilizador
             val call = RetrofitInitializer()
                 .userService()
-                .register(txtUser, txtPass)
+                .register(user, password)
 
             call.enqueue(object : Callback<User> {
                 override fun onFailure(call: Call<User>, t: Throwable) {

@@ -11,16 +11,16 @@ interface UserService {
     @Multipart
     @POST("api/Auth/register")
     fun register(
-        @Part("username") user: String,
-        @Part("password") pass: String
+        @Part("username") user: RequestBody,
+        @Part("password") pass: RequestBody
     ): Call<User>
 
 
     @Multipart
     @POST("api/Auth/login")
     fun login(
-        @Part("username") user: String,
-        @Part("password") pass: String
+        @Part("username") user: RequestBody,
+        @Part("password") pass: RequestBody
     ): Call<String>
 
     @GET("api/Auth/Username")

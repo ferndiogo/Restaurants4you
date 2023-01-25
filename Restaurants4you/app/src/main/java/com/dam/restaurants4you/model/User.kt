@@ -1,7 +1,6 @@
 package com.dam.restaurants4you.model
 
 import com.google.gson.annotations.SerializedName
-import retrofit2.Callback
 import java.util.*
 
 class User(

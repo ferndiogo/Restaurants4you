@@ -2,15 +2,18 @@ package com.dam.restaurants4you.fragmentos
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.dam.restaurants4you.R
 import com.dam.restaurants4you.model.Restaurant
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,25 +44,51 @@ class FragAddRest : Fragment() {
         val txtLat: EditText = view?.findViewById(R.id.txtLat) as EditText
         val txtLong: EditText = view?.findViewById(R.id.txtLong) as EditText
 
-        val titulo = txtRest.text.toString()
-        val descricao = txtDesc.text.toString()
-        val morada = txtMorada.text.toString()
-        val contacto = txtContacto.text.toString()
-        val email = txtEmail.text.toString()
-        val horario = txtHorario.text.toString()
-        val latitude = txtLat.text.toString()
-        val longitude = txtLong.text.toString()
+
+        val titulo: RequestBody =
+            RequestBody.create(MediaType.parse("text/plain"), txtRest.text.toString())
+
+        val descricao: RequestBody =
+            RequestBody.create(MediaType.parse("text/plain"), txtDesc.text.toString())
+
+        val morada: RequestBody =
+            RequestBody.create(MediaType.parse("text/plain"), txtMorada.text.toString())
+
+        val contacto: RequestBody =
+        RequestBody.create(MediaType.parse("text/plain"), txtContacto.text.toString())
+
+        val email: RequestBody =
+            RequestBody.create(MediaType.parse("text/plain"), txtEmail.text.toString())
+
+        val horario: RequestBody =
+            RequestBody.create(MediaType.parse("text/plain"), txtHorario.text.toString())
 
 
-        val call = RetrofitInitializer().restaurantService().addRestaurant(loadToken(), titulo, descricao, morada,
-            contacto, email, horario, latitude, longitude)
+        val latitude: RequestBody =
+            RequestBody.create(MediaType.parse("text/plain"), txtLat.text.toString())
+        val longitude: RequestBody =
+            RequestBody.create(MediaType.parse("text/plain"), txtLong.text.toString())
+
+        val call = RetrofitInitializer().restaurantService().addRestaurant(
+            loadToken(), titulo, descricao, morada,
+            contacto, email, horario, latitude, longitude
+        )
 
         call.enqueue(object : Callback<Restaurant> {
             override fun onResponse(call: Call<Restaurant>, response: Response<Restaurant>) {
+                Toast.makeText(
+                    context,
+                    "Restaurante Adicionado!",
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
             override fun onFailure(call: Call<Restaurant>, t: Throwable) {
-                TODO("Not yet implemented")
+                Toast.makeText(
+                    context,
+                    "Ocorreu um erro ao adicionar o seu restaurante",
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
         })
