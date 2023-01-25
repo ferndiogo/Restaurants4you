@@ -191,7 +191,7 @@ class LoginActivity : AppCompatActivity() {
                             ) {
                                 response.body().let {
                                     // guarda a role
-                                    var role: String = it as String
+                                    var role: String? = it as String
 
                                     // caso seja "Restaurant" é encaminhado para uma activity, se for
                                     // "User" para outra, ou gera uma mensagem de erro

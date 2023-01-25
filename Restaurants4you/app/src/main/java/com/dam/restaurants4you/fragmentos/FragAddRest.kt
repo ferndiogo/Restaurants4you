@@ -1,7 +1,10 @@
 package com.dam.restaurants4you.fragmentos
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.dam.restaurants4you.R
+import com.dam.restaurants4you.activity.RoleRActivity
 import com.dam.restaurants4you.model.Restaurant
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
 import okhttp3.MediaType
@@ -55,7 +59,7 @@ class FragAddRest : Fragment() {
             RequestBody.create(MediaType.parse("text/plain"), txtMorada.text.toString())
 
         val contacto: RequestBody =
-        RequestBody.create(MediaType.parse("text/plain"), txtContacto.text.toString())
+            RequestBody.create(MediaType.parse("text/plain"), txtContacto.text.toString())
 
         val email: RequestBody =
             RequestBody.create(MediaType.parse("text/plain"), txtEmail.text.toString())
@@ -63,36 +67,53 @@ class FragAddRest : Fragment() {
         val horario: RequestBody =
             RequestBody.create(MediaType.parse("text/plain"), txtHorario.text.toString())
 
-
         val latitude: RequestBody =
             RequestBody.create(MediaType.parse("text/plain"), txtLat.text.toString())
+
         val longitude: RequestBody =
             RequestBody.create(MediaType.parse("text/plain"), txtLong.text.toString())
 
-        val call = RetrofitInitializer().restaurantService().addRestaurant(
-            loadToken(), titulo, descricao, morada,
-            contacto, email, horario, latitude, longitude
-        )
+        if (!(checkEmail(txtEmail.text.toString()))!!) {
+            Toast.makeText(
+                context,
+                "Insira um email válido",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (!(checkContacto(txtContacto.text.toString()))!!) {
+            Toast.makeText(
+                context,
+                "Insira um contacto válido",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
 
-        call.enqueue(object : Callback<Restaurant> {
-            override fun onResponse(call: Call<Restaurant>, response: Response<Restaurant>) {
-                Toast.makeText(
-                    context,
-                    "Restaurante Adicionado!",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            val call = RetrofitInitializer().restaurantService().addRestaurant(
+                loadToken(), titulo, descricao, morada,
+                contacto, email, horario, latitude, longitude
+            )
 
-            override fun onFailure(call: Call<Restaurant>, t: Throwable) {
-                Toast.makeText(
-                    context,
-                    "Ocorreu um erro ao adicionar o seu restaurante",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            call.enqueue(object : Callback<Restaurant> {
+                override fun onResponse(call: Call<Restaurant>, response: Response<Restaurant>) {
+                    Toast.makeText(
+                        context,
+                        "Restaurante Adicionado!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    val it = Intent(context, RoleRActivity::class.java)
+                    startActivity(it)
+                }
 
-        })
+                override fun onFailure(call: Call<Restaurant>, t: Throwable) {
+                    Toast.makeText(
+                        context,
+                        "Ocorreu um erro ao adicionar o seu restaurante",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
 
+            })
+
+        }
     }
 
     /**
@@ -104,6 +125,21 @@ class FragAddRest : Fragment() {
             .getSharedPreferences(R.string.Name_File_Token.toString(), Context.MODE_PRIVATE)
 
         return sharedPreferences.getString("token", "").toString()
+    }
+
+    /**
+     * função que irá verificar se o email é válido
+     */
+    private fun checkEmail(email: String): Boolean? {
+        return return Patterns.EMAIL_ADDRESS?.matcher(email)?.matches()
+    }
+
+
+    /**
+     * função que irá verificar se o contacto é válido
+     */
+    private fun checkContacto(contacto: String): Boolean? {
+        return Patterns.PHONE?.matcher(contacto)?.matches()
     }
 }
 
