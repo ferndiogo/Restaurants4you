@@ -48,7 +48,6 @@ class LoginActivity : AppCompatActivity() {
         //lê o token guardado no dispositivo
         token = loadToken()
 
-        println(token)
 
         // caso exista um token guardado em memória é deita uma chamada à API (GET) para obter a
         // role do utilizador, caso seja "Restaurant" é encaminhado para uma activity, se for "User"

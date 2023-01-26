@@ -69,7 +69,7 @@ class MapaActivity : AppCompatActivity() {
                     this@MapaActivity,
                     "Token inválido ou erro no servidor",
                     Toast.LENGTH_LONG
-                )
+                ).show()
                 // reecaminha para outra activity, neste caso para o Login activity
                 val it = Intent(this@MapaActivity, LoginActivity::class.java)
                 startActivity(it)
@@ -133,7 +133,7 @@ class MapaActivity : AppCompatActivity() {
         for (rt: Restaurant in list!!) {
             val lat: Double = rt.latitude.toDouble()
             val lon: Double = rt.longitude.toDouble()
-            criarMarcador(lat, lon, rt.name, rt, token)
+            criarMarcador(lat, lon, rt.name, rt)
         }
     }
 
@@ -150,7 +150,7 @@ class MapaActivity : AppCompatActivity() {
         // capacidade para ser possível fazer zoom com os dedos
         map.setMultiTouchControls(true)
 
-        var compassOverlay = CompassOverlay(this, map)
+        val compassOverlay = CompassOverlay(this, map)
         compassOverlay.enableCompass()
         map.overlays.add(compassOverlay)
 
@@ -173,8 +173,7 @@ class MapaActivity : AppCompatActivity() {
         latitude: Double,
         longitude: Double,
         local: String,
-        rt: Restaurant,
-        token: String?
+        rt: Restaurant
     ) {
 
         // define um ponto no mapa
@@ -187,7 +186,7 @@ class MapaActivity : AppCompatActivity() {
         // diz ao mapa que o marcador deve ser desenhado no centro da tela
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         // define o conteúdo da infoWindow
-        startMarker.infoWindow = Marcador(map, this, local, rt, token)
+        startMarker.infoWindow = Marcador(map, this, local, rt)
         // adiciona o marcador ao Mapa
         map.overlays.add(startMarker)
     }

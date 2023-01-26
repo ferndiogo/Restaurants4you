@@ -42,10 +42,10 @@ class RestaurantesActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.janela_detalhes)
 
+        val token = loadToken()
 
         //receber do marcador
         val id = intent.getIntExtra("id", -1)
-        val token = intent.getStringExtra("token")
 
         //receber da camera
         val img = intent.getStringExtra("pathImg")
@@ -156,15 +156,11 @@ class RestaurantesActivity() : AppCompatActivity() {
         btnSubmeter.setOnClickListener(View.OnClickListener {
             if (!verificar) {
                 Toast.makeText(
-                    this@RestaurantesActivity,
-                    "Precisa de selecionar uma imagem",
-                    Toast.LENGTH_LONG
+                    this@RestaurantesActivity, "Precisa de selecionar uma imagem", Toast.LENGTH_LONG
                 ).show()
             } else {
-                val requestFile =
-                    RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                val imagePart =
-                    MultipartBody.Part.createFormData("imagem", file.name, requestFile)
+                val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                val imagePart = MultipartBody.Part.createFormData("imagem", file.name, requestFile)
 
                 val call = restaurant!!.id?.let { it1 ->
                     RetrofitInitializer().imageService().addImage(
@@ -247,80 +243,6 @@ class RestaurantesActivity() : AppCompatActivity() {
         val btnDir = findViewById<ImageButton>(R.id.btnDir)
         val btnEsq = findViewById<ImageButton>(R.id.btnEsq)
 
-        // tamanho do array que contém as imagens do restaurante
-        var tam = restaurant?.images?.size
-
-        // descontar 1 ao tamanho do array por ser [0,1,2,3,...]
-        if (tam != null) {
-            tam = tam - 1
-        }
-
-        // se o i for menor que tamanho do array das imagens então incrementa
-        // senão volta ao indice 0
-        btnDir.setOnClickListener(View.OnClickListener {
-            if (i < tam!!) {
-                i++
-
-                //constrói a string para carregar a foto
-                val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
-                val b = restaurant?.images?.get(i)?.path
-                val sb = StringBuilder()
-                sb.append(a).append(b)
-                val c = sb.toString()
-
-                // carrega a foto atrés do URL
-                Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
-            } else {
-                i = 0
-
-                //constrói a string para carregar a foto
-                val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
-                val b = restaurant?.images?.get(i)?.path
-                val sb = StringBuilder()
-                sb.append(a).append(b)
-                val c = sb.toString()
-
-                // carrega a foto atrés do URL
-                Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
-            }
-        })
-
-        // se o i for diferente de 0 decrementa
-        // senão volta ao indice 1 e apresenta a primeira imagem de indice 0
-        btnEsq.setOnClickListener(View.OnClickListener {
-            if (!(i == 0)) {
-                i--
-
-                //constrói a string para carregar a foto
-                val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
-                val b = restaurant?.images?.get(i)?.path
-                println(b)
-                val sb = StringBuilder()
-                sb.append(a).append(b)
-                val c = sb.toString()
-
-                // carrega a foto atrés do URL
-                Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
-
-            } else {
-                if (tam != null) {
-                    i = tam + 1
-
-                    //constrói a string para carregar a foto
-                    val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
-                    val b = restaurant?.images?.get(tam)?.path
-                    val sb = StringBuilder()
-                    sb.append(a).append(b)
-                    val c = sb.toString()
-
-                    // carrega a foto atrés do URL
-                    Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
-                }
-            }
-        })
-
-        //txtNome.text = restaurant?.images?.get(1)?.path
-
         // define um valor à TextView
         txtDesc.text = restaurant?.description
         txtLocal.text = restaurant?.localization
@@ -342,6 +264,89 @@ class RestaurantesActivity() : AppCompatActivity() {
             Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
         }
 
+        // tamanho do array que contém as imagens do restaurante
+        var tam = restaurant?.images?.size
+
+        if (tam == 0) {
+            // carrega a foto atrés do URL
+            Glide.with(this)
+                .load(
+                    getResources()
+                        .getIdentifier("vazio", "drawable", this.getPackageName())
+                )
+                .into(imageview)
+        } else {
+
+            // descontar 1 ao tamanho do array por ser [0,1,2,3,...]
+            if (tam != null) {
+                tam = tam - 1
+            }
+
+            // se o i for menor que tamanho do array das imagens então incrementa
+            // senão volta ao indice 0
+            btnDir.setOnClickListener(View.OnClickListener {
+                if (i < tam!!) {
+                    i++
+
+                    //constrói a string para carregar a foto
+                    val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
+                    val b = restaurant?.images?.get(i)?.path
+                    val sb = StringBuilder()
+                    sb.append(a).append(b)
+                    val c = sb.toString()
+
+                    // carrega a foto atrés do URL
+                    Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+                } else {
+                    i = 0
+
+                    //constrói a string para carregar a foto
+                    val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
+                    val b = restaurant?.images?.get(i)?.path
+                    val sb = StringBuilder()
+                    sb.append(a).append(b)
+                    val c = sb.toString()
+
+                    // carrega a foto atrés do URL
+                    Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+                }
+            })
+
+            // se o i for diferente de 0 decrementa
+            // senão volta ao indice 1 e apresenta a primeira imagem de indice 0
+            btnEsq.setOnClickListener(View.OnClickListener {
+                if (!(i == 0)) {
+                    i--
+
+                    //constrói a string para carregar a foto
+                    val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
+                    val b = restaurant?.images?.get(i)?.path
+                    println(b)
+                    val sb = StringBuilder()
+                    sb.append(a).append(b)
+                    val c = sb.toString()
+
+                    // carrega a foto atrés do URL
+                    Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+
+                } else {
+                    if (tam != null) {
+                        i = tam + 1
+
+                        //constrói a string para carregar a foto
+                        val a = "https://restaurants4you-api.azurewebsites.net/Fotos/"
+                        val b = restaurant?.images?.get(tam)?.path
+                        val sb = StringBuilder()
+                        sb.append(a).append(b)
+                        val c = sb.toString()
+
+                        // carrega a foto atrés do URL
+                        Glide.with(this@RestaurantesActivity).load(c).fitCenter().into(imageview)
+                    }
+                }
+            })
+        }
+
         //actionbar
         val actionbar = supportActionBar
         //set actionbar title
@@ -356,8 +361,7 @@ class RestaurantesActivity() : AppCompatActivity() {
      */
     private fun loadToken(): String {
         val sharedPreferences: SharedPreferences = getSharedPreferences(
-            R.string.Name_File_Token.toString(),
-            MODE_PRIVATE
+            R.string.Name_File_Token.toString(), MODE_PRIVATE
         )
         return sharedPreferences.getString("token", "").toString()
     }
