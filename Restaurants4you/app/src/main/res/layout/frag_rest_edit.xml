@@ -102,7 +102,7 @@
                 android:id="@+id/btnEdit"
                 style="@style/btn"
                 android:text="@string/editar" />
-
+            
 
         </LinearLayout>
     </ScrollView>
