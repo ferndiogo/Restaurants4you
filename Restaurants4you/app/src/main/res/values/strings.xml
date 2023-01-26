@@ -41,4 +41,12 @@
     <string name="esquerda">Esquerda</string>
     <string name="local">Local</string>
     <string name="adicionar_imagem">Adicionar Imagem</string>
+    <string name="curso">Engenharia Informática</string>
+    <string name="uc">Desenvolvimento de Aplicações Móveis</string>
+    <string name="ipt">IPT</string>
+    <string name="ano">2022/2023</string>
+    <string name="fernando_fuzeiro">Fernando Fuzeiro</string>
+    <string name="n_22111">Nº 22111</string>
+    <string name="vasco_araujo">Vasco Araújo</string>
+    <string name="n_23055">Nº 23055</string>
 </resources>

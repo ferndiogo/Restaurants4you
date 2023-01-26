@@ -63,6 +63,8 @@ class FragDelRest : Fragment() {
                 this@FragDelRest.listId = listOf()
                 this@FragDelRest.listName = listOf()
                 listRestsUser()
+                val it = Intent(context, RoleRActivity::class.java)
+                startActivity(it)
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {

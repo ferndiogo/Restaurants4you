@@ -8,19 +8,12 @@ import com.dam.restaurants4you.model.Restaurant
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 
-class Marcador: InfoWindow {
-
-    private var parent: MapaActivity
-    private var text: String
+class Marcador(
+    mapView: MapView,
+    private var parent: MapaActivity,
+    private var text: String,
     private var rt: Restaurant
-
-    constructor(
-        mapView: MapView, parent: MapaActivity, text: String, rt: Restaurant
-    ) : super(R.layout.janela_info, mapView) {
-        this.parent = parent
-        this.text = text
-        this.rt = rt
-    }
+) : InfoWindow(R.layout.janela_info, mapView) {
 
     override fun onOpen(item: Any?) {
         // fecha todas as janelas no início
@@ -42,7 +35,7 @@ class Marcador: InfoWindow {
         }
 
         // quando um clique na área da janela, ela fecha
-        mView.setOnClickListener{
+        mView.setOnClickListener {
             close()
         }
     }

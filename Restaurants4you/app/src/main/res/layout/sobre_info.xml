@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/txtCurso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Engenharia Informática"
+        android:text="@string/curso"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -22,7 +22,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Desenvolvimento de Aplicações Móveis"
+        android:text="@string/uc"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txtUC2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/ipt"
         android:textAlignment="center"
         android:textSize="20sp" />
 
@@ -30,7 +39,7 @@
         android:id="@+id/txtAno"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="2022/2023"
+        android:text="@string/ano"
         android:textAlignment="center"
         android:textSize="16sp" />
 
@@ -48,22 +57,23 @@
             android:id="@+id/imgFernando"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@drawable/fernando"
-            android:layout_margin="10dp"/>
+            android:contentDescription="@string/imagem" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtNomeFernando"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fernando Fuzeiro"
+                android:text="@string/fernando_fuzeiro"
                 android:textAlignment="center"
                 android:textSize="16sp" />
 
@@ -71,7 +81,7 @@
                 android:id="@+id/txtNumFernando"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nº 22111"
+                android:text="@string/n_22111"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -88,22 +98,23 @@
             android:id="@+id/imgVasco"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@drawable/vasco"
-            android:layout_margin="10dp"/>
+            android:contentDescription="@string/imagem" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtNomeVasco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Vasco Araújo"
+                android:text="@string/vasco_araujo"
                 android:textAlignment="center"
                 android:textSize="16sp" />
 
@@ -111,9 +122,10 @@
                 android:id="@+id/txtNumVasco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nº 23055"
+                android:text="@string/n_23055"
                 android:textAlignment="center" />
         </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>

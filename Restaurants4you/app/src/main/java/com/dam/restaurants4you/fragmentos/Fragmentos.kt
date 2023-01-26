@@ -21,7 +21,6 @@ class Fragmentos : AppCompatActivity(){
         viewPager2 = findViewById(R.id.view_pager2)
         myViewPagerAdapter = AdaptadorPagina(this)
         viewPager2.adapter = myViewPagerAdapter
-        viewPager2.setUserInputEnabled(false);
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 

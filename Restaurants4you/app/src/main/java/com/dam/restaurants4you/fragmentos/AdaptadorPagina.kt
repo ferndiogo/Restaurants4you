@@ -5,12 +5,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class AdaptadorPagina(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+
     override fun getItemCount(): Int {
         return 3
     }
 
     override fun createFragment(position: Int): Fragment {
-        when(position) {
+        when (position) {
             0 -> return FragAddRest()
             1 -> return FragEditRest()
             2 -> return FragDelRest()

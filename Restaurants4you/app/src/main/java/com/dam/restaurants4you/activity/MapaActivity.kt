@@ -66,9 +66,7 @@ class MapaActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
                 Toast.makeText(
-                    this@MapaActivity,
-                    "Token inválido ou erro no servidor",
-                    Toast.LENGTH_LONG
+                    this@MapaActivity, "Token inválido ou erro no servidor", Toast.LENGTH_LONG
                 ).show()
                 // reecaminha para outra activity, neste caso para o Login activity
                 val it = Intent(this@MapaActivity, LoginActivity::class.java)
@@ -110,20 +108,6 @@ class MapaActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun logout() {
-        val sharedPref: SharedPreferences = this.getSharedPreferences(
-            R.string.Name_File_Token.toString(),
-            MODE_PRIVATE
-        )
-        val edit: SharedPreferences.Editor = sharedPref.edit()
-        edit.putString("token", "")
-        edit.apply()
-        edit.commit()
-        val inte = Intent(this, LoginActivity::class.java)
-        startActivity(inte)
-        Toast.makeText(this, "Logout com sucesso!", Toast.LENGTH_LONG).show()
     }
 
     /**
@@ -170,17 +154,14 @@ class MapaActivity : AppCompatActivity() {
      * função que cria um marcador com as coordenadas passadas por parametro
      */
     private fun criarMarcador(
-        latitude: Double,
-        longitude: Double,
-        local: String,
-        rt: Restaurant
+        latitude: Double, longitude: Double, local: String, rt: Restaurant
     ) {
 
         // define um ponto no mapa
-        var point = GeoPoint(latitude, longitude)
+        val point = GeoPoint(latitude, longitude)
         // define um marcador num ponto
-        var startMarker = Marker(map)
-        startMarker.setIcon(getResources().getDrawable(R.drawable.marcador));
+        val startMarker = Marker(map)
+        startMarker.setIcon(resources.getDrawable(R.drawable.marcador));
         // atribui o ponto ao marcador
         startMarker.position = point
         // diz ao mapa que o marcador deve ser desenhado no centro da tela
@@ -193,7 +174,7 @@ class MapaActivity : AppCompatActivity() {
 
 
     /**
-     * função para obter a localização atual
+     * função para obter a localização atual e irá abrir o mapa na mesma
      */
     private fun getLocation() {
         val myLocationoverlay = MyLocationNewOverlay(map)
@@ -207,11 +188,25 @@ class MapaActivity : AppCompatActivity() {
      */
     private fun loadToken(): String {
         val sharedPreferences: SharedPreferences = getSharedPreferences(
-            R.string.Name_File_Token.toString(),
-            MODE_PRIVATE
+            R.string.Name_File_Token.toString(), MODE_PRIVATE
         )
         return sharedPreferences.getString("token", "").toString()
     }
 
+    /**
+     * função que irá fazer logout do utilizador descartando o token
+     */
+    private fun logout() {
+        val sharedPref: SharedPreferences = this.getSharedPreferences(
+            R.string.Name_File_Token.toString(), MODE_PRIVATE
+        )
+        val edit: SharedPreferences.Editor = sharedPref.edit()
+        edit.putString("token", "")
+        edit.apply()
+        edit.commit()
+        val inte = Intent(this, LoginActivity::class.java)
+        startActivity(inte)
+        Toast.makeText(this, "Logout com sucesso!", Toast.LENGTH_LONG).show()
+    }
 
 }

@@ -1,11 +1,9 @@
 package com.dam.restaurants4you.activity
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -29,19 +27,19 @@ class RegistoActivity : AppCompatActivity() {
         // referência para o botão de registo
         val btnRegistar = findViewById<Button>(R.id.btnRegistar)
         // atribui uma função ao botão
-        btnRegistar.setOnClickListener(View.OnClickListener {
+        btnRegistar.setOnClickListener {
             // chama a função para realizar o registo
             register()
-        })
+        }
 
         // referência para o botão de registo
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         // atribui uma função ao botão
-        btnLogin.setOnClickListener(View.OnClickListener {
+        btnLogin.setOnClickListener {
             // reecaminha para outra activity, neste caso para o Login activity
-            val it = Intent(this@RegistoActivity, LoginActivity::class.java)
-            startActivity(it)
-        })
+            val it2 = Intent(this@RegistoActivity, LoginActivity::class.java)
+            startActivity(it2)
+        }
 
     }
 
@@ -57,7 +55,7 @@ class RegistoActivity : AppCompatActivity() {
      * função para atribuir funções ao clicar nos diferentes item da action bar
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
+        return when (item.itemId) {
             R.id.info -> {
                 // reecaminha para outra activity, neste caso para o Sobre activity
                 val it = Intent(this@RegistoActivity, SobreActivity::class.java)
@@ -81,25 +79,19 @@ class RegistoActivity : AppCompatActivity() {
         // confirma se as passwords são iguais
         if (txtPass == txtConfPass) {
 
-            val user: RequestBody =
-                RequestBody.create(MediaType.parse("text/plain"), txtUser)
+            val user: RequestBody = RequestBody.create(MediaType.parse("text/plain"), txtUser)
 
-            val password: RequestBody =
-                RequestBody.create(MediaType.parse("text/plain"), txtPass)
+            val password: RequestBody = RequestBody.create(MediaType.parse("text/plain"), txtPass)
 
             // chamada à API (POST) para registar o utilizador
-            val call = RetrofitInitializer()
-                .userService()
-                .register(user, password)
+            val call = RetrofitInitializer().userService().register(user, password)
 
             call.enqueue(object : Callback<User> {
                 override fun onFailure(call: Call<User>, t: Throwable) {
                     // escreve na consola o erro
                     t.printStackTrace()
                     Toast.makeText(
-                        this@RegistoActivity,
-                        R.string.ErrorServer,
-                        Toast.LENGTH_LONG
+                        this@RegistoActivity, R.string.ErrorServer, Toast.LENGTH_LONG
                     ).show()
                 }
 
@@ -110,9 +102,7 @@ class RegistoActivity : AppCompatActivity() {
                         response.errorBody().let {
                             val aux = it?.string()
                             Toast.makeText(
-                                this@RegistoActivity,
-                                aux,
-                                Toast.LENGTH_LONG
+                                this@RegistoActivity, aux, Toast.LENGTH_LONG
                             ).show()
                             // coloca as EditText vazias
                             findViewById<EditText>(R.id.userRegisto).setText("")
@@ -127,8 +117,8 @@ class RegistoActivity : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
                             // reecaminha para outra activity, neste caso para o Login activity
-                            val it = Intent(this@RegistoActivity, LoginActivity::class.java)
-                            startActivity(it)
+                            val it3 = Intent(this@RegistoActivity, LoginActivity::class.java)
+                            startActivity(it3)
 
                         }
                     }

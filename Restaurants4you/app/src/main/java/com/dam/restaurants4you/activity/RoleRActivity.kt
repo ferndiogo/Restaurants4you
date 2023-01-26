@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,20 +20,20 @@ class RoleRActivity : AppCompatActivity() {
         // referência para o botão ddo mapa
         val btnMapa = findViewById<Button>(R.id.btnMapa)
         // atribui uma função ao botão
-        btnMapa.setOnClickListener(View.OnClickListener {
+        btnMapa.setOnClickListener {
             // reecaminha para outra activity, neste caso para o Mapa activity
-            val it = Intent(this, MapaActivity::class.java)
-            startActivity(it)
-        })
+            val it1 = Intent(this, MapaActivity::class.java)
+            startActivity(it1)
+        }
 
         // referência para o botão ddo mapa
         val btnFrags = findViewById<Button>(R.id.btnGere)
         // atribui uma função ao botão
-        btnFrags.setOnClickListener(View.OnClickListener {
+        btnFrags.setOnClickListener {
             // reecaminha para outra activity, neste caso para o Fragmentos activity que terá outras informações
-            val it = Intent(this, Fragmentos::class.java)
-            startActivity(it)
-        })
+            val it2 = Intent(this, Fragmentos::class.java)
+            startActivity(it2)
+        }
     }
 
     /**
@@ -49,7 +48,7 @@ class RoleRActivity : AppCompatActivity() {
      * função para atribuir funções ao clicar nos diferentes item da action bar
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
+        return when (item.itemId) {
             R.id.logOut -> {
                 logout()
                 return true
@@ -64,16 +63,18 @@ class RoleRActivity : AppCompatActivity() {
         }
     }
 
-    private fun logout(){
+    /**
+     * função que irá fazer logout do utilizador descartando o token
+     */
+    private fun logout() {
         val sharedPref: SharedPreferences = this@RoleRActivity.getSharedPreferences(
-            R.string.Name_File_Token.toString(),
-            MODE_PRIVATE
+            R.string.Name_File_Token.toString(), MODE_PRIVATE
         )
         val edit: SharedPreferences.Editor = sharedPref.edit()
         edit.putString("token", "")
         edit.apply()
         edit.commit()
-        val inte = Intent(this@RoleRActivity,LoginActivity::class.java)
+        val inte = Intent(this@RoleRActivity, LoginActivity::class.java)
         startActivity(inte)
         Toast.makeText(this@RoleRActivity, "Logout com sucesso!", Toast.LENGTH_LONG).show()
     }

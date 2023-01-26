@@ -29,16 +29,23 @@ class FragAddRest : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.frag_rest_add, container, false)
 
+        // referência para o botão de adicionar
         val btnAdd: Button = view?.findViewById(R.id.btnAdd) as Button
         btnAdd.setOnClickListener({ addRestaurante() })
-        // Inflate the layout for this fragment
+
+        // "inflate" o layout deste fragmento
         return view
     }
 
+    /**
+     * função para adicionar um restaurante
+     */
     private fun addRestaurante() {
 
+        // referências para as diferentes EditTexts
         val txtRest: EditText = view?.findViewById(R.id.txtRest) as EditText
         val txtDesc: EditText = view?.findViewById(R.id.txtDesc) as EditText
         val txtMorada: EditText = view?.findViewById(R.id.txtMorada) as EditText
@@ -48,7 +55,7 @@ class FragAddRest : Fragment() {
         val txtLat: EditText = view?.findViewById(R.id.txtLat) as EditText
         val txtLong: EditText = view?.findViewById(R.id.txtLong) as EditText
 
-
+        // tratar as informações para serem enviadas para a API
         val titulo: RequestBody =
             RequestBody.create(MediaType.parse("text/plain"), txtRest.text.toString())
 
@@ -73,20 +80,25 @@ class FragAddRest : Fragment() {
         val longitude: RequestBody =
             RequestBody.create(MediaType.parse("text/plain"), txtLong.text.toString())
 
+        // verifica se o email inserido é válido
         if (!(checkEmail(txtEmail.text.toString()))!!) {
             Toast.makeText(
                 context,
                 "Insira um email válido",
                 Toast.LENGTH_SHORT
             ).show()
+
+            // verifica se o contato inserido é válido
         } else if (!(checkContacto(txtContacto.text.toString()))!!) {
             Toast.makeText(
                 context,
                 "Insira um contacto válido",
                 Toast.LENGTH_SHORT
             ).show()
+
         } else {
 
+            // chamada à API (POST) para submeter um novo resturante
             val call = RetrofitInitializer().restaurantService().addRestaurant(
                 loadToken(), titulo, descricao, morada,
                 contacto, email, horario, latitude, longitude
@@ -99,6 +111,7 @@ class FragAddRest : Fragment() {
                         "Restaurante Adicionado!",
                         Toast.LENGTH_LONG
                     ).show()
+                    // reecaminha para outra activity, neste caso para o RoleR activity
                     val it = Intent(context, RoleRActivity::class.java)
                     startActivity(it)
                 }
@@ -131,7 +144,7 @@ class FragAddRest : Fragment() {
      * função que irá verificar se o email é válido
      */
     private fun checkEmail(email: String): Boolean? {
-        return return Patterns.EMAIL_ADDRESS?.matcher(email)?.matches()
+        return Patterns.EMAIL_ADDRESS?.matcher(email)?.matches()
     }
 
 

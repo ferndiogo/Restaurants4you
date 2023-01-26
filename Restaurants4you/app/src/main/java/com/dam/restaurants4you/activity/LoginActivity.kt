@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -31,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
-        //coleta as permissões do utilizador
+        // coleta as permissões do utilizador
         requestPermissionsIfNecessary(
             arrayOf(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -45,14 +44,14 @@ class LoginActivity : AppCompatActivity() {
             )
         )
 
-        //lê o token guardado no dispositivo
+        // lê o token guardado no dispositivo
         token = loadToken()
 
 
         // caso exista um token guardado em memória é deita uma chamada à API (GET) para obter a
         // role do utilizador, caso seja "Restaurant" é encaminhado para uma activity, se for "User"
         // para outra, ou gera uma mensagem de erro
-        if (!(token.isNullOrBlank())) {
+        if (!(token.isBlank())) {
 
             val call = RetrofitInitializer().userService().getRoles(token)
             println("Iam Here")
@@ -61,13 +60,15 @@ class LoginActivity : AppCompatActivity() {
                     call: Call<String>, response: Response<String>
                 ) {
                     response.body().let {
-                        var role: String = it as String
+                        val role: String = it as String
                         if (role == "Restaurant") {
-                            val it = Intent(this@LoginActivity, RoleRActivity::class.java)
-                            startActivity(it)
+                            // reecaminha para outra activity, neste caso para a RoleR activity
+                            val it1 = Intent(this@LoginActivity, RoleRActivity::class.java)
+                            startActivity(it1)
                         } else if (role == "User") {
-                            val it = Intent(this@LoginActivity, MapaActivity::class.java)
-                            startActivity(it)
+                            // reecaminha para outra activity, neste caso para o Mapa activity
+                            val it2 = Intent(this@LoginActivity, MapaActivity::class.java)
+                            startActivity(it2)
                         } else {
                             Toast.makeText(
                                 this@LoginActivity,
@@ -85,6 +86,7 @@ class LoginActivity : AppCompatActivity() {
                         "Token inválido ou erro no servidor",
                         Toast.LENGTH_LONG
                     ).show()
+
                     // coloca os valores vazios nos campos de username e password
                     val username = findViewById<EditText>(R.id.userRegisto)
                     val pass = findViewById<EditText>(R.id.passwordRegisto)
@@ -99,20 +101,20 @@ class LoginActivity : AppCompatActivity() {
         val btnRegisto = findViewById<Button>(R.id.btnRegistar)
 
         // atribui uma função ao botão
-        btnRegisto.setOnClickListener(View.OnClickListener {
+        btnRegisto.setOnClickListener {
             // reecaminha para outra activity, neste caso para o Registo activity
-            val it = Intent(this@LoginActivity, RegistoActivity::class.java)
-            startActivity(it)
-        })
+            val it3 = Intent(this@LoginActivity, RegistoActivity::class.java)
+            startActivity(it3)
+        }
 
         // referência para o botão de login
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
         // atribui uma função ao botão
-        btnLogin.setOnClickListener(View.OnClickListener {
+        btnLogin.setOnClickListener {
             // chama a função para realizar o login
             login()
-        })
+        }
 
 
     }
@@ -184,9 +186,9 @@ class LoginActivity : AppCompatActivity() {
                         saveToken(token)
 
                         // chamada à API (GET) para obter o role do utilizador
-                        val call = RetrofitInitializer().userService().getRoles(token)
+                        val call2 = RetrofitInitializer().userService().getRoles(token)
 
-                        call.enqueue(object : Callback<String> {
+                        call2.enqueue(object : Callback<String> {
                             override fun onResponse(
                                 call: Call<String>, response: Response<String>
                             ) {
@@ -196,21 +198,21 @@ class LoginActivity : AppCompatActivity() {
                                         login()
                                     } else {
                                         // guarda a role
-                                        var role: String? = it as String
+                                        val role: String = it as String
 
                                         // caso seja "Restaurant" é encaminhado para uma activity, se for
                                         // "User" para outra, ou gera uma mensagem de erro
                                         if (role == "Restaurant") {
-                                            val it =
+                                            val it4 =
                                                 Intent(
                                                     this@LoginActivity,
                                                     RoleRActivity::class.java
                                                 )
-                                            startActivity(it)
+                                            startActivity(it4)
                                         } else if (role == "User") {
-                                            val it =
+                                            val it5 =
                                                 Intent(this@LoginActivity, MapaActivity::class.java)
-                                            startActivity(it)
+                                            startActivity(it5)
                                         } else {
                                             Toast.makeText(
                                                 this@LoginActivity,
@@ -230,8 +232,8 @@ class LoginActivity : AppCompatActivity() {
                                     Toast.LENGTH_LONG
                                 ).show()
                                 // reecaminha para outra activity, neste caso para o Login activity
-                                val it = Intent(this@LoginActivity, LoginActivity::class.java)
-                                startActivity(it)
+                                val it6 = Intent(this@LoginActivity, LoginActivity::class.java)
+                                startActivity(it6)
                             }
 
                         })
@@ -254,14 +256,14 @@ class LoginActivity : AppCompatActivity() {
      * função para coletar as permissões do utilizador
      */
     private fun requestPermissionsIfNecessary(permissions: Array<out String>) {
-        val permissionsToRequest = ArrayList<String>();
+        val permissionsToRequest = ArrayList<String>()
         permissions.forEach { permission ->
             if (ContextCompat.checkSelfPermission(
                     this, permission
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 // a permissão não é concedida
-                permissionsToRequest.add(permission);
+                permissionsToRequest.add(permission)
             }
         }
         if (permissionsToRequest.size > 0) {
@@ -269,7 +271,7 @@ class LoginActivity : AppCompatActivity() {
                 this@LoginActivity,
                 permissionsToRequest.toArray(arrayOf<String>()),
                 REQUEST_PERMISSIONS_REQUEST_CODE
-            );
+            )
         }
     }
 
