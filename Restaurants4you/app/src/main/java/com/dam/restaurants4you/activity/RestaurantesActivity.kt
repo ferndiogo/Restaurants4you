@@ -2,9 +2,11 @@ package com.dam.restaurants4you.activity
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
@@ -34,86 +36,150 @@ class RestaurantesActivity() : AppCompatActivity() {
     private val options = arrayOf<CharSequence>("Câmara ", "Galeria", "Cancelar")
     private lateinit var file: File
     private lateinit var imageUri: Uri
+    private var verificar: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.janela_detalhes)
 
 
+        //receber do marcador
         val id = intent.getIntExtra("id", -1)
         val token = intent.getStringExtra("token")
 
-        println(id)
-        println(token)
+        //receber da camera
+        val img = intent.getStringExtra("pathImg")
+        val idR = intent.getIntExtra("idR", -1)
 
-        val call = RetrofitInitializer().restaurantService().listRestaurants(token!!, id)
-        call.enqueue(object : Callback<Restaurant> {
-            override fun onResponse(call: Call<Restaurant>, response: Response<Restaurant>) {
-                response.body().let {
-                    restaurant = it as Restaurant
-                }
-                //restaurant?.let { println(it.id) }
-                // restaurant?.let { println(it.name) }
-                processRestaurant()
-            }
+        val imageSelect = findViewById<ImageView>(R.id.imageSelect)
+        val txtImgSelec = findViewById<TextView>(R.id.txtImgSelec)
 
 
-            override fun onFailure(call: Call<Restaurant>, t: Throwable) {
-                Toast.makeText(
-                    this@RestaurantesActivity, R.string.ErrorServer, Toast.LENGTH_LONG
-                ).show()
-                val it = Intent(this@RestaurantesActivity, LoginActivity::class.java)
-                startActivity(it)
-            }
+        if (!((img.isNullOrBlank()) || (idR == null))) {
 
+            val call = RetrofitInitializer().restaurantService().listRestaurants(loadToken(), idR)
+            call.enqueue(object : Callback<Restaurant> {
+                override fun onResponse(call: Call<Restaurant>, response: Response<Restaurant>) {
+                    response.body().let {
+                        restaurant = it as Restaurant
+                    }
+                    //restaurant?.let { println(it.id) }
+                    // restaurant?.let { println(it.name) }
+                    processRestaurant()
 
-        })
+                    Glide.with(this@RestaurantesActivity).load(img).into(imageSelect)
 
-        val btnUpload = findViewById<Button>(R.id.btnUpload)
-        btnUpload.setOnClickListener(View.OnClickListener {
-            val builder = AlertDialog.Builder(this@RestaurantesActivity)
-            builder.setTitle("Selecionar Imagem")
-            builder.setItems(options, object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    println(which)
-                    if (which == 0) {
-                        val takePic = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        startActivityForResult(takePic, 0)
-                    } else if (which == 1) {
-                        val intent = Intent(Intent.ACTION_PICK)
-                        intent.type = "image/*"
-                        startActivityForResult(intent, 1)
-                    } else {
-                        dialog.dismiss()
+                    txtImgSelec.text = "Imagem Selecionada"
+
+                    if (restaurant != null) {
+
+                        val myUri = Uri.parse(img)
+                        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                        val cursor =
+                            contentResolver.query(myUri!!, filePathColumn, null, null, null)
+                        cursor!!.moveToFirst()
+                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+                        val imgDecodableString = cursor.getString(columnIndex)
+                        cursor.close()
+                        file = File(imgDecodableString)
+                        verificar = true
                     }
                 }
+
+
+                override fun onFailure(call: Call<Restaurant>, t: Throwable) {
+                    Toast.makeText(
+                        this@RestaurantesActivity, R.string.ErrorServer, Toast.LENGTH_LONG
+                    ).show()
+                    val it = Intent(this@RestaurantesActivity, LoginActivity::class.java)
+                    startActivity(it)
+                }
+
+
             })
 
-            builder.show()
-        })
+
+        } else {
+
+            val call = RetrofitInitializer().restaurantService().listRestaurants(token!!, id)
+            call.enqueue(object : Callback<Restaurant> {
+                override fun onResponse(call: Call<Restaurant>, response: Response<Restaurant>) {
+                    response.body().let {
+                        restaurant = it as Restaurant
+                    }
+                    //restaurant?.let { println(it.id) }
+                    // restaurant?.let { println(it.name) }
+                    processRestaurant()
+                }
 
 
+                override fun onFailure(call: Call<Restaurant>, t: Throwable) {
+                    Toast.makeText(
+                        this@RestaurantesActivity, R.string.ErrorServer, Toast.LENGTH_LONG
+                    ).show()
+                    val it = Intent(this@RestaurantesActivity, LoginActivity::class.java)
+                    startActivity(it)
+                }
+
+
+            })
+
+            val btnUpload = findViewById<Button>(R.id.btnUpload)
+            btnUpload.setOnClickListener(View.OnClickListener {
+                val builder = AlertDialog.Builder(this@RestaurantesActivity)
+                builder.setTitle("Selecionar Imagem")
+                builder.setItems(options, object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface, which: Int) {
+                        println(which)
+                        if (which == 0) {
+
+                            val it = Intent(this@RestaurantesActivity, CamaraActivity::class.java)
+                            it.putExtra("idR", id)
+                            startActivity(it)
+
+                        } else if (which == 1) {
+
+                            val intent = Intent(Intent.ACTION_PICK)
+                            intent.type = "image/*"
+                            startActivityForResult(intent, 1)
+                        } else {
+                            dialog.dismiss()
+                        }
+                    }
+                })
+
+                builder.show()
+            })
+
+        }
         val btnSubmeter = findViewById<Button>(R.id.btnSub)
         btnSubmeter.setOnClickListener(View.OnClickListener {
+            if (!verificar) {
+                Toast.makeText(
+                    this@RestaurantesActivity,
+                    "Precisa de selecionar uma imagem",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                val requestFile =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                val imagePart =
+                    MultipartBody.Part.createFormData("imagem", file.name, requestFile)
 
-            if (restaurant != null) {
-                //val imagem = MultipartBody.Part.createFormData("imagem", file.name, file.asRequestBody("image/*".toMediaTypeOrNull()))
-
-                val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                val imagePart = MultipartBody.Part.createFormData("imagem", file.name, requestFile)
-
-                val call =
-                    restaurant!!.id?.let { it1 ->
-                        RetrofitInitializer().imageService().addImage(
-                            token,
-                            it1, imagePart
-                        )
-                    }
+                val call = restaurant!!.id?.let { it1 ->
+                    RetrofitInitializer().imageService().addImage(
+                        loadToken(), it1, imagePart
+                    )
+                }
                 call?.enqueue(object : Callback<ImageRest> {
-                    override fun onResponse(call: Call<ImageRest>, response: Response<ImageRest>) {
+                    override fun onResponse(
+                        call: Call<ImageRest>, response: Response<ImageRest>
+                    ) {
                         Toast.makeText(
                             this@RestaurantesActivity, "Imagem Submetida", Toast.LENGTH_LONG
                         ).show()
+                        val it = Intent(this@RestaurantesActivity, MapaActivity::class.java)
+                        startActivity(it)
                     }
 
                     override fun onFailure(call: Call<ImageRest>, t: Throwable) {
@@ -126,6 +192,7 @@ class RestaurantesActivity() : AppCompatActivity() {
                 })
             }
         })
+
     }
 
 
@@ -136,17 +203,6 @@ class RestaurantesActivity() : AppCompatActivity() {
 
             when (requestCode) {
 
-                0 -> if (resultCode === RESULT_OK && data != null) {
-                    val image: Bitmap? = data.extras!!["data"] as Bitmap?
-                    val imageSelect = findViewById<ImageView>(R.id.imageSelect)
-                    Glide.with(this@RestaurantesActivity).load(image).into(imageSelect)
-
-                    val txtImgSelec = findViewById<TextView>(R.id.txtImgSelec)
-                    txtImgSelec.text = "Imagem Selecionada"
-
-
-                }
-
                 1 -> if (resultCode === RESULT_OK && data != null) {
                     imageUri = data?.data!!
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
@@ -156,11 +212,8 @@ class RestaurantesActivity() : AppCompatActivity() {
                     val imgDecodableString = cursor.getString(columnIndex)
                     cursor.close()
                     file = File(imgDecodableString)
+                    verificar = true
 
-
-                    println(file)
-
-                    println(file)
 
                     val imageSelect = findViewById<ImageView>(R.id.imageSelect)
                     Glide.with(this@RestaurantesActivity).load(file).into(imageSelect)
@@ -296,5 +349,16 @@ class RestaurantesActivity() : AppCompatActivity() {
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
         actionbar.setDisplayHomeAsUpEnabled(true)
+    }
+
+    /**
+     * função que irá ler o token guardado em memória
+     */
+    private fun loadToken(): String {
+        val sharedPreferences: SharedPreferences = getSharedPreferences(
+            R.string.Name_File_Token.toString(),
+            MODE_PRIVATE
+        )
+        return sharedPreferences.getString("token", "").toString()
     }
 }

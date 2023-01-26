@@ -2,9 +2,11 @@ package com.dam.restaurants4you.activity
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
@@ -36,6 +38,8 @@ class CamaraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
 
+    var idAux: Int? = null
+
     //   private var videoCapture: VideoCapture<Recorder>? = null
     //   private var recording: Recording? = null
 
@@ -53,6 +57,8 @@ class CamaraActivity : AppCompatActivity() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
         )
+
+        idAux = intent.getIntExtra("idR", -1)
 
         startCamera()
 
@@ -100,8 +106,16 @@ class CamaraActivity : AppCompatActivity() {
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     imgPath = output.savedUri.toString()
+
+
+
+                    val intent = Intent(this@CamaraActivity, RestaurantesActivity::class.java)
+                    intent.putExtra("pathImg", imgPath)
+                    intent.putExtra("idR", idAux)
+                    startActivity(intent)
+
+
                     val msg = "Photo capture succeeded: ${output.savedUri}"
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(R.string.app_name.toString(), msg)
                 }
             }
