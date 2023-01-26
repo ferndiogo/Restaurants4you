@@ -34,11 +34,10 @@ interface RestaurantService {
         @Part("longitude") longitude: RequestBody,
     ): Call<Restaurant>
 
-    @Multipart
     @DELETE("api/Restaurants/{id}")
     fun deleteRestaurant(
         @Header("Authorization") token:String,
-        @Part("id") id: Int
+        @Path("id") id: Int
     ):Call<Void>
 
     @Multipart
@@ -49,10 +48,9 @@ interface RestaurantService {
         @Part("id") id: Int
     ):Call<Void>
 
-    @GET("api/Restaurants/User/{id}")
+    @GET("api/Restaurants/User")
     fun listRestaurantsUser(
-        @Header("Authorization") token:String,
-        @Path("id") idUser: Int
+        @Header("Authorization") token:String
     ): Call<List<Restaurant>>
 
 }
