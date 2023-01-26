@@ -44,9 +44,18 @@ interface RestaurantService {
     @PUT("api/Restaurants/{id}")
     fun editRestaurant(
         @Header("Authorization") token:String,
-        @Part("rt") restaurant: Restaurant,
-        @Part("id") id: Int
-    ):Call<Void>
+        @Part("id") id: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("description") descricao: RequestBody,
+        @Part("localization") localizacao: RequestBody,
+        @Part("contact") contacto: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("time") horario: RequestBody,
+        @Part("latitude") latitude: RequestBody,
+        @Part("longitude") longitude: RequestBody,
+        @Part("userFK") userFK: RequestBody,
+        @Path("id") idPath: Int
+    ):Call<Restaurant>
 
     @GET("api/Restaurants/User")
     fun listRestaurantsUser(

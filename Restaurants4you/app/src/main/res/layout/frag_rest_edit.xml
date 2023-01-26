@@ -23,11 +23,20 @@
                 android:text="@string/edit_restaurante" />
 
 
+            <TextView
+                style="@style/txtLoginRegisto"
+                android:textSize="20dp"
+                android:text="Selecione um restaurante:" />
             <Spinner
                 android:id="@+id/dropdownEdit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:hint="@string/selecionar_restaurante"
+                style="@style/spinner"
                 android:contentDescription="@string/selecionar_restaurante"/>
+
+            <TextView
+                style="@style/txtLoginRegisto"
+                android:textSize="20dp"
+                android:text="Dados do Restaurante:" />
 
             <EditText
                 android:id="@+id/txtRest"
@@ -90,7 +99,7 @@
                 android:inputType="numberDecimal" />
 
             <Button
-                android:id="@+id/btnGere"
+                android:id="@+id/btnEdit"
                 style="@style/btn"
                 android:text="@string/editar" />
 
