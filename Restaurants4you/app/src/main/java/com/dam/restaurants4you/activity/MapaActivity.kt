@@ -42,6 +42,9 @@ class MapaActivity : AppCompatActivity() {
         map = findViewById(R.id.mapa)
 
         callAPIRestaurants()
+
+        // chama a função para obter a localização real do dispositivo
+        getLocation()
     }
 
     fun callAPIRestaurants() {
@@ -58,8 +61,6 @@ class MapaActivity : AppCompatActivity() {
                     showMap()
                     // chama a função que irá criar os marcadores no mapa
                     addAllMarkers()
-                    // chama a função para obter a localização real do dispositivo
-                    getLocation()
                 }
             }
 
@@ -177,7 +178,6 @@ class MapaActivity : AppCompatActivity() {
     ) {
 
         // define um ponto no mapa
-        // Instituto Politécnico de Tomar
         var point = GeoPoint(latitude, longitude)
         // define um marcador num ponto
         var startMarker = Marker(map)

@@ -48,6 +48,8 @@ class LoginActivity : AppCompatActivity() {
         //lê o token guardado no dispositivo
         token = loadToken()
 
+        println(token)
+
         // caso exista um token guardado em memória é deita uma chamada à API (GET) para obter a
         // role do utilizador, caso seja "Restaurant" é encaminhado para uma activity, se for "User"
         // para outra, ou gera uma mensagem de erro
@@ -190,25 +192,33 @@ class LoginActivity : AppCompatActivity() {
                                 call: Call<String>, response: Response<String>
                             ) {
                                 response.body().let {
-                                    // guarda a role
-                                    var role: String? = it as String
-
-                                    // caso seja "Restaurant" é encaminhado para uma activity, se for
-                                    // "User" para outra, ou gera uma mensagem de erro
-                                    if (role == "Restaurant") {
-                                        val it =
-                                            Intent(this@LoginActivity, RoleRActivity::class.java)
-                                        startActivity(it)
-                                    } else if (role == "User") {
-                                        val it =
-                                            Intent(this@LoginActivity, MapaActivity::class.java)
-                                        startActivity(it)
+                                    if (response.code() == 401) {
+                                        descartToken()
+                                        login()
                                     } else {
-                                        Toast.makeText(
-                                            this@LoginActivity,
-                                            "Ocorreu um erro a verificar o tipo de utilizador",
-                                            Toast.LENGTH_LONG
-                                        )
+                                        // guarda a role
+                                        var role: String? = it as String
+
+                                        // caso seja "Restaurant" é encaminhado para uma activity, se for
+                                        // "User" para outra, ou gera uma mensagem de erro
+                                        if (role == "Restaurant") {
+                                            val it =
+                                                Intent(
+                                                    this@LoginActivity,
+                                                    RoleRActivity::class.java
+                                                )
+                                            startActivity(it)
+                                        } else if (role == "User") {
+                                            val it =
+                                                Intent(this@LoginActivity, MapaActivity::class.java)
+                                            startActivity(it)
+                                        } else {
+                                            Toast.makeText(
+                                                this@LoginActivity,
+                                                "Ocorreu um erro a verificar o tipo de utilizador",
+                                                Toast.LENGTH_LONG
+                                            )
+                                        }
                                     }
                                 }
 
@@ -285,6 +295,17 @@ class LoginActivity : AppCompatActivity() {
         )
         val edit: SharedPreferences.Editor = sharedPref.edit()
         edit.putString("token", token)
+        edit.apply()
+        edit.commit()
+    }
+
+    private fun descartToken() {
+        val sharedPref: SharedPreferences = this.getSharedPreferences(
+            R.string.Name_File_Token.toString(),
+            MODE_PRIVATE
+        )
+        val edit: SharedPreferences.Editor = sharedPref.edit()
+        edit.putString("token", "")
         edit.apply()
         edit.commit()
     }
