@@ -1,20 +1,15 @@
 package com.dam.restaurants4you.activity
 
-import android.Manifest
 import android.content.ContentValues
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import android.widget.Toast
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
@@ -28,11 +23,7 @@ import java.util.Locale
 
 class CamaraActivity : AppCompatActivity() {
 
-    private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
-
-    //Para obter o ficheiro faz-se:
-    //var file = File(imgPath)
-    private lateinit var imgPath : String
+    private lateinit var imgPath: String
 
     private val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
 
@@ -40,42 +31,33 @@ class CamaraActivity : AppCompatActivity() {
 
     var idAux: Int? = null
 
-    //   private var videoCapture: VideoCapture<Recorder>? = null
-    //   private var recording: Recording? = null
-
     private lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // another way to access View
+        // acessar á view
         setContentView(R.layout.camera)
 
-        requestPermissionsIfNecessary(
-            arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-        )
-
+        // recebe o id para saber a que restaurante será associada a foto
         idAux = intent.getIntExtra("idR", -1)
 
+        //inicia a câmara
         startCamera()
 
-        // Set up the listeners for take photo and video capture buttons
+        // configura os listeners para tirar a foto
         val tirarFoto = findViewById<Button>(R.id.tirarFoto)
-        tirarFoto.setOnClickListener { takePhoto() }
-
+        tirarFoto.setOnClickListener { tirarFoto() }
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
-    private fun takePhoto() {
-        // Get a stable reference of the modifiable image capture use case
+    private fun tirarFoto() {
+        // Obtém uma referência estável do caso de uso de captura de imagem modificável
         val imageCapture = imageCapture ?: return
 
-        // Create time stamped name and MediaStore entry.
-        val name = SimpleDateFormat(FILENAME_FORMAT, Locale.FRANCE)
-            .format(System.currentTimeMillis())
+        // Cria um nome com o registro da data e hora e uma entrada do MediaStore
+        val name =
+            SimpleDateFormat(FILENAME_FORMAT, Locale.FRANCE).format(System.currentTimeMillis())
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
@@ -85,19 +67,13 @@ class CamaraActivity : AppCompatActivity() {
             }
         }
 
-        // Create output options object which contains file + metadata
-        val outputOptions = ImageCapture.OutputFileOptions
-            .Builder(
-                contentResolver,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                contentValues
-            )
-            .build()
+        // Cria objeto de saída que contém o arquivo + metadados
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(
+                contentResolver, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues
+            ).build()
 
-        // Set up image capture listener, which is triggered after photo has
-        // been taken
-        imageCapture.takePicture(
-            outputOptions,
+        // Configura o image capture listener, que é acionado após a foto ser tirada
+        imageCapture.takePicture(outputOptions,
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
@@ -106,7 +82,6 @@ class CamaraActivity : AppCompatActivity() {
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     imgPath = output.savedUri.toString()
-
 
 
                     val intent = Intent(this@CamaraActivity, RestaurantesActivity::class.java)
@@ -118,35 +93,30 @@ class CamaraActivity : AppCompatActivity() {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Log.d(R.string.app_name.toString(), msg)
                 }
-            }
-        )
+            })
     }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
-            // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
-            // Preview
-            val preview = Preview.Builder()
-                .build()
-                .also {
+            val preview = Preview.Builder().build().also {
                     val viewFinder = findViewById<PreviewView>(R.id.viewFinder)
                     it.setSurfaceProvider(viewFinder.surfaceProvider)
                 }
 
             imageCapture = ImageCapture.Builder().build()
 
-            // Select back camera as a default
+            // Seleciona a câmara traseira como default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
-                // Unbind use cases before rebinding
+                // Desvincula os casos de uso antes de revincular
                 cameraProvider.unbindAll()
 
-                // Bind use cases to camera
+                // Vincula casos de uso à câmera
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture
                 )
@@ -162,25 +132,5 @@ class CamaraActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
-    }
-
-    private fun requestPermissionsIfNecessary(permissions: Array<out String>) {
-        val permissionsToRequest = ArrayList<String>()
-        permissions.forEach { permission ->
-            if (ContextCompat.checkSelfPermission(
-                    this, permission
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // a permissão não é concedida
-                permissionsToRequest.add(permission)
-            }
-        }
-        if (permissionsToRequest.size > 0) {
-            ActivityCompat.requestPermissions(
-                this,
-                permissionsToRequest.toArray(arrayOf<String>()),
-                REQUEST_PERMISSIONS_REQUEST_CODE
-            )
-        }
     }
 }
