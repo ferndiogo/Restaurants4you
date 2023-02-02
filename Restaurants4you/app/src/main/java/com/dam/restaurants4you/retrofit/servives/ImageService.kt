@@ -4,8 +4,10 @@ import com.dam.restaurants4you.model.ImageRest
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
-import java.io.File
 
+/**
+ * conjunto de funções para acesso a API
+ */
 interface ImageService {
     @Multipart
     @GET("api/Images")

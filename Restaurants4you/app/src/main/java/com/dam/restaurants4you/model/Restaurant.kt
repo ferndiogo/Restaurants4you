@@ -1,8 +1,10 @@
 package com.dam.restaurants4you.model
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import com.google.gson.annotations.SerializedName
 
+/**
+ * dados de um restaurante
+ */
 data class Restaurant(
     @SerializedName("id")
     val id: Int?,

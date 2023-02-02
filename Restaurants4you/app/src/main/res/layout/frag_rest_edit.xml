@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo">
@@ -9,7 +7,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
 
         <LinearLayout
@@ -25,18 +22,18 @@
 
             <TextView
                 style="@style/txtLoginRegisto"
-                android:textSize="20dp"
-                android:text="Selecione um restaurante:" />
+                android:text="@string/selecione_um_restaurante"
+                android:textSize="20sp" />
+
             <Spinner
                 android:id="@+id/dropdownEdit"
-                android:hint="@string/selecionar_restaurante"
                 style="@style/spinner"
-                android:contentDescription="@string/selecionar_restaurante"/>
+                android:hint="@string/selecionar_restaurante" />
 
             <TextView
                 style="@style/txtLoginRegisto"
-                android:textSize="20dp"
-                android:text="Dados do Restaurante:" />
+                android:text="@string/dados_do_restaurante"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/txtRest"
@@ -102,7 +99,7 @@
                 android:id="@+id/btnEdit"
                 style="@style/btn"
                 android:text="@string/editar" />
-            
+
 
         </LinearLayout>
     </ScrollView>

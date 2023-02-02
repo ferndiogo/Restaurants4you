@@ -3,6 +3,9 @@ package com.dam.restaurants4you.model
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
+/**
+ * dados de um utilizador
+ */
 class User(
 
     @SerializedName("username")

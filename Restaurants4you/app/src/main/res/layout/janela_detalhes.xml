@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="@drawable/fundo">
+    android:background="@drawable/fundo"
+    android:orientation="horizontal">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -43,9 +43,9 @@
 
                 <ImageButton
                     android:id="@+id/btnDir"
-                    app:srcCompat="@drawable/dir"
                     style="@style/imageBtn"
-                    android:contentDescription="@string/direita"/>
+                    android:contentDescription="@string/direita"
+                    app:srcCompat="@drawable/dir" />
 
             </LinearLayout>
 
@@ -57,7 +57,7 @@
 
                 <TextView
                     style="@style/txtViewT"
-                    android:text="@string/descri_o"/>
+                    android:text="@string/descri_o" />
 
                 <TextView
                     android:id="@+id/txtDesc"
@@ -65,7 +65,7 @@
 
                 <TextView
                     style="@style/txtViewT"
-                    android:text="@string/local"/>
+                    android:text="@string/local" />
 
                 <TextView
                     android:id="@+id/txtLocal"
@@ -73,15 +73,15 @@
 
                 <TextView
                     style="@style/txtViewT"
-                    android:text="@string/contacto"/>
+                    android:text="@string/contacto" />
 
                 <TextView
                     android:id="@+id/txtContacto"
                     style="@style/txtViewD" />
 
                 <TextView
-                    android:text="@string/email"
-                    style="@style/txtViewT" />
+                    style="@style/txtViewT"
+                    android:text="@string/email" />
 
                 <TextView
                     android:id="@+id/txtEmail"
@@ -89,7 +89,7 @@
 
                 <TextView
                     style="@style/txtViewT"
-                    android:text="@string/hor_rio"/>
+                    android:text="@string/hor_rio" />
 
                 <TextView
                     android:id="@+id/txtHorario"
@@ -101,7 +101,7 @@
 
                 <TextView
                     style="@style/txtViewT"
-                    android:text="@string/adicionar_imagem"/>
+                    android:text="@string/adicionar_imagem" />
 
                 <Button
                     android:id="@+id/btnUpload"

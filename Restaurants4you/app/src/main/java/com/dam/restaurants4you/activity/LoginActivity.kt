@@ -297,9 +297,11 @@ class LoginActivity : AppCompatActivity() {
         val edit: SharedPreferences.Editor = sharedPref.edit()
         edit.putString("token", token)
         edit.apply()
-        edit.commit()
     }
 
+    /**
+     * Descarta o token guarda no armazenamento
+     */
     private fun descartToken() {
         val sharedPref: SharedPreferences = this.getSharedPreferences(
             R.string.Name_File_Token.toString(),
@@ -308,6 +310,5 @@ class LoginActivity : AppCompatActivity() {
         val edit: SharedPreferences.Editor = sharedPref.edit()
         edit.putString("token", "")
         edit.apply()
-        edit.commit()
     }
 }

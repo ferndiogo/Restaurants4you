@@ -6,27 +6,30 @@
     tools:context=".fragmentos.Fragmentos">
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tab_layout">
+        android:layout_height="wrap_content">
+
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Adicionar" />
+            android:text="@string/adicionar" />
+
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editar" />
+            android:text="@string/editar" />
+
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Eliminar" />
+            android:text="@string/eliminar" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/view_pager2"
-        android:layout_below="@+id/tab_layout"/>
+        android:layout_below="@+id/tab_layout" />
 
 </RelativeLayout>

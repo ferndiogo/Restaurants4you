@@ -12,7 +12,6 @@ import com.dam.restaurants4you.R
 import com.dam.restaurants4you.activity.RoleRActivity
 import com.dam.restaurants4you.model.Restaurant
 import com.dam.restaurants4you.retrofit.RetrofitInitializer
-import com.google.gson.Gson
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -37,8 +36,10 @@ class FragEditRest : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.frag_rest_edit, container, false)
 
+        //adiciona os restaurantes a dropdown
         listRestsUser()
 
+        // referência para o botão de eliminar
         val btnEdit = view.findViewById<Button>(R.id.btnEdit)
         btnEdit.setOnClickListener {
             if (rt != null) {
@@ -52,7 +53,11 @@ class FragEditRest : Fragment() {
         return view
     }
 
+    /**
+     * lista os restaurantes de um utilizador na dropdown
+     */
     private fun listRestsUser() {
+        // chamada à API (GET) para listar os resturantes presentes de um determinado utilizador
         val call =
             RetrofitInitializer().restaurantService().listRestaurantsUser(loadToken())
         call.enqueue(object : Callback<List<Restaurant>> {
@@ -62,11 +67,13 @@ class FragEditRest : Fragment() {
             ) {
                 response.body().let {
                     val list = it as List<Restaurant>
+                    //faz duas listas com os Restaurante e outra com os nomes dos restaurantes
                     for (rt: Restaurant in list) {
                         listRt += rt
                         listName += rt.name
                     }
-                    if (listRt.isNullOrEmpty()) {
+                    //no caso de a lista de restaurantes ser vazia mostra um Toast
+                    if (listRt.isEmpty()) {
                         Toast.makeText(
                             context,
                             "Não tem nenhum restaurante registado!!",
@@ -75,6 +82,7 @@ class FragEditRest : Fragment() {
                         val it = Intent(context, Fragmentos::class.java)
                         startActivity(it)
                     }
+                    //configura o spinner
                     configSpinner()
                 }
             }
@@ -90,6 +98,9 @@ class FragEditRest : Fragment() {
         })
     }
 
+    /**
+     * função que irá ler o token guardado em memória
+     */
     private fun loadToken(): String {
         val sharedPreferences = this.requireActivity()
             .getSharedPreferences(R.string.Name_File_Token.toString(), Context.MODE_PRIVATE)
@@ -97,9 +108,14 @@ class FragEditRest : Fragment() {
         return sharedPreferences.getString("token", "").toString()
     }
 
+    /**
+     * configura o spinner
+     */
     private fun configSpinner() {
+        // referência para a dropdown dos restaurantes
         val spinner = view?.findViewById<Spinner>(R.id.dropdownEdit)
 
+        //configuração do spinner para mostrar os nomes dos restaurantes
         arrayAdapter = context?.let {
             ArrayAdapter(
                 it,
@@ -112,6 +128,7 @@ class FragEditRest : Fragment() {
 
         spinner?.adapter = arrayAdapter
 
+        //adicionar evento onitemselected ao spinner
         spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 rt = listRt.get(p2)
@@ -124,7 +141,11 @@ class FragEditRest : Fragment() {
         }
     }
 
+    /**
+     * coloca os dados do restaurante selecionado nos respetivos campos
+     */
     private fun processRest(){
+        // referências para as diferentes TextViews
         val nome = view?.findViewById<TextView>(R.id.txtRest)
         val desc = view?.findViewById<TextView>(R.id.txtDesc)
         val morada = view?.findViewById<TextView>(R.id.txtMorada)
@@ -134,6 +155,7 @@ class FragEditRest : Fragment() {
         val lat = view?.findViewById<TextView>(R.id.txtLat)
         val lon = view?.findViewById<TextView>(R.id.txtLong)
 
+        // define um valor à TextView
         nome?.text = rt?.name
         desc?.text = rt?.description
         morada?.text = rt?.localization
@@ -145,7 +167,11 @@ class FragEditRest : Fragment() {
 
     }
 
+    /**
+     * trata os dados e envia para a API com o objetivo de editar um restaurante
+     */
     private fun editRest(){
+        // referências para as diferentes TextViews
         val nome = view?.findViewById<TextView>(R.id.txtRest)
         val desc = view?.findViewById<TextView>(R.id.txtDesc)
         val morada = view?.findViewById<TextView>(R.id.txtMorada)
@@ -155,6 +181,7 @@ class FragEditRest : Fragment() {
         val lat = view?.findViewById<TextView>(R.id.txtLat)
         val lon = view?.findViewById<TextView>(R.id.txtLong)
 
+        // tratar as informações para serem enviadas para a API
         val idBd: RequestBody =
             RequestBody.create(MediaType.parse("text/plain"), rt?.id.toString())
 
@@ -185,12 +212,12 @@ class FragEditRest : Fragment() {
         val userFkBdBd: RequestBody =
             RequestBody.create(MediaType.parse("text/plain"), rt?.userFK.toString())
 
+        // chamada à API (PUT) para submeter um novo resturante
         val call = rt?.id?.let {
             RetrofitInitializer().restaurantService().editRestaurant(loadToken(),idBd, nameBd, descBd,moradaBd,contactoBd,emailBd,horarioBd,latitudeBd,longitudeBd,userFkBdBd,
                 rt!!.id!!
             )
         }
-
         call?.enqueue(object: Callback<Restaurant>{
             override fun onResponse(call: Call<Restaurant>, response: Response<Restaurant>) {
                 response.body().let {

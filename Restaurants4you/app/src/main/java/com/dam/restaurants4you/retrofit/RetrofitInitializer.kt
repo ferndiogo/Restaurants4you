@@ -8,6 +8,9 @@ import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Incia o retrofit para permitir comunicações com a API
+ */
 class RetrofitInitializer {
 
     private val host = "https://restaurants4you-api.azurewebsites.net/"

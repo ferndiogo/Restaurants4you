@@ -73,7 +73,6 @@ class RoleRActivity : AppCompatActivity() {
         val edit: SharedPreferences.Editor = sharedPref.edit()
         edit.putString("token", "")
         edit.apply()
-        edit.commit()
         val inte = Intent(this@RoleRActivity, LoginActivity::class.java)
         startActivity(inte)
         Toast.makeText(this@RoleRActivity, "Logout com sucesso!", Toast.LENGTH_LONG).show()

@@ -2,6 +2,9 @@ package com.dam.restaurants4you.model
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Dados de uma imagem
+ */
 data class ImageRest(
     @SerializedName("id")
     val id: Int,

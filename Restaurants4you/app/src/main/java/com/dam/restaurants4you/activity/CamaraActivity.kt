@@ -96,6 +96,9 @@ class CamaraActivity : AppCompatActivity() {
             })
     }
 
+    /**
+     * Iniciar a câmara
+     */
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 

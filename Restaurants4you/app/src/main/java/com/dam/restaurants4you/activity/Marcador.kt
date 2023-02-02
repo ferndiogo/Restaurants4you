@@ -41,6 +41,5 @@ class Marcador(
     }
 
     override fun onClose() {
-        // TODO("Not yet implemented")
     }
 }

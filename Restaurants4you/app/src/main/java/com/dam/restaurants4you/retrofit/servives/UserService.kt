@@ -5,7 +5,9 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
-
+/**
+ * conjunto de funções para acesso a API
+ */
 interface UserService {
 
     @Multipart

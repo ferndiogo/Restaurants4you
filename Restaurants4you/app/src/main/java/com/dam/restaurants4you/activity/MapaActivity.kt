@@ -203,7 +203,6 @@ class MapaActivity : AppCompatActivity() {
         val edit: SharedPreferences.Editor = sharedPref.edit()
         edit.putString("token", "")
         edit.apply()
-        edit.commit()
         val inte = Intent(this, LoginActivity::class.java)
         startActivity(inte)
         Toast.makeText(this, "Logout com sucesso!", Toast.LENGTH_LONG).show()
