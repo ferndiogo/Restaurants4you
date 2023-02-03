@@ -50,4 +50,6 @@
     <string name="vasco_araujo">Vasco Araújo</string>
     <string name="n_23055">Nº 23055</string>
     <string name="eliminar">Eliminar</string>
+    <string name="selecione_um_restaurante">Selecione um restaurante</string>
+    <string name="dados_do_restaurante">Dados do restaurante</string>
 </resources>

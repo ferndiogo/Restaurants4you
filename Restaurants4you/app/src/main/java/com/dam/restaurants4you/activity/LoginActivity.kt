@@ -54,7 +54,6 @@ class LoginActivity : AppCompatActivity() {
         if (!(token.isBlank())) {
 
             val call = RetrofitInitializer().userService().getRoles(token)
-            println("Iam Here")
             call.enqueue(object : Callback<String> {
                 override fun onResponse(
                     call: Call<String>, response: Response<String>
